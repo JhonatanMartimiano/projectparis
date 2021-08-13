@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="6126fb75-5b37-4e28-ad09-8bdb1545c8a6" name="PRODUCTION" url="http://ftp.web15f60.uni5.net">
+        <fileTransfer host="ftp.web15f60.uni5.net" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

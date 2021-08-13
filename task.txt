@@ -1,0 +1,4 @@
+Cidade/Estado
+Colocar Select Etapa Cliente
+Colocar número da etapa
+Colocar número de clientes dentro da etapa
