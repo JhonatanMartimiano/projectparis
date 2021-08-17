@@ -14,7 +14,6 @@ class Negotiation extends Model
             "met_us",
             "branch",
             "contact_type",
-            "status",
             "next_contact",
             "funnel_id",
             "description"

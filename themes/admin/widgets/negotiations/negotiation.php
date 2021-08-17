@@ -109,8 +109,8 @@
                                         <label>Status</label>
                                         <select name="status" class="form-control">
                                             <option value="">Selecione uma opção</option>
-                                            <option value="Negociação" <?= ("Negociação" == $client->lastNegotiationInfo()->status) ? "selected" : ""; ?>>Em Negociação</option>
-                                            <option value="Concluído" <?= ("Concluído" == $client->lastNegotiationInfo()->status) ? "selected" : ""; ?>>Concluído</option>
+                                            <option value="Negociação" <?= ("Negociação" == $client->status) ? "selected" : ""; ?>>Em Negociação</option>
+                                            <option value="Concluído" <?= ("Concluído" == $client->status) ? "selected" : ""; ?>>Concluído</option>
                                         </select>
                                     </div>
                                 </div>
@@ -160,14 +160,16 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <?php foreach ($negotiations as $negotiation): ?>
-                                    <tr>
-                                        <th scope="row"><?= $negotiation->id; ?></th>
-                                        <td><?= date_fmt($negotiation->created_at); ?></td>
-                                        <td><?= $negotiation->contact_type; ?></td>
-                                        <td><?= $negotiation->description; ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
+                                <?php if ($negotiations): ?>
+                                    <?php foreach ($negotiations as $negotiation): ?>
+                                        <tr>
+                                            <th scope="row"><?= $negotiation->id; ?></th>
+                                            <td><?= date_fmt($negotiation->created_at); ?></td>
+                                            <td><?= $negotiation->contact_type; ?></td>
+                                            <td><?= $negotiation->description; ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>

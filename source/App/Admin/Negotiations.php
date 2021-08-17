@@ -56,8 +56,6 @@ class Negotiations extends Admin
             $negotiationCreate->met_us = $data["met_us"];
             $negotiationCreate->branch = $data["branch"];
             $negotiationCreate->contact_type = $data["contact_type"];
-            $negotiationCreate->reason_loss = $data["reason_loss"];
-            $negotiationCreate->status = $data["status"];
             $negotiationCreate->next_contact = ($data["next_contact"]) ? date_fmt_back($data["next_contact"]) : date("Y-m-d");
             $negotiationCreate->funnel_id = $client->funnel_id;
             $negotiationCreate->description = $data["description"];
@@ -69,6 +67,8 @@ class Negotiations extends Admin
             }
 
             $client->funnel_id = $data["funnel_id"];
+            $client->status = $data["status"];
+            $client->reason_loss = $data["reason_loss"];
 
             if (!$client->save()) {
                 $json["message"] = $negotiationCreate->message()->render();

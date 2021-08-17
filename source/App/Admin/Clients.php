@@ -85,6 +85,7 @@ class Clients extends Admin
             $clientCreate->seller_id = $data["seller_id"];
             $clientCreate->funnel_id = $data["funnel_id"];
             $clientCreate->registration_date = date_fmt_back($data["registration_date"]);
+            $clientCreate->status = "Negociação";
 
             if (!$clientCreate->save()) {
                 $json["message"] = $clientCreate->message()->render();
@@ -147,8 +148,8 @@ class Clients extends Admin
 
             $clientDelete->destroy();
 
-            $this->message->success("O vendedor foi excluído com sucesso...")->flash();
-            echo json_encode(["redirect" => url("/admin/sellers/home")]);
+            $this->message->success("O cliente foi excluído com sucesso...")->flash();
+            echo json_encode(["redirect" => url("/admin/clients/home")]);
 
             return;
         }

@@ -39,6 +39,24 @@ class Seller extends Model
         return "{$this->first_name} {$this->last_name}";
     }
 
+    public function countClients(): int
+    {
+        $find = (new Client())->find("seller_id = :sid", "sid={$this->id}");
+        return $find->count();
+    }
+
+    public function completedClients()
+    {
+        $find = (new Client())->find("seller_id = :sid AND status = 'Concluído'", "sid={$this->id}");
+        return $find->count();
+    }
+
+    public function canceledClients()
+    {
+        $find = (new Client())->find("seller_id = :sid AND reason_loss != ''", "sid={$this->id}");
+        return $find->count();
+    }
+
     /**
      * @return bool
      */

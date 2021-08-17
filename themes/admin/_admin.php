@@ -174,7 +174,16 @@ $userPhoto = ($photo ? image($photo, 300, 300) : url("/shared/images/avatar.jpg"
                                 class="side-menu__label">Relatórios</span><i
                                 class="angle fa fa-angle-right"></i></a>
                     <ul class="slide-menu">
-                        <li><a class="slide-item" href="#">Relatórios Por Vendedor</a></li>
+                        <li><a class="slide-item" href="<?= url('/admin/reports/sellers'); ?>">Relatórios Por Vendedor</a></li>
+                    </ul>
+                    <ul class="slide-menu">
+                        <li><a class="slide-item" href="<?= url('/admin/reports/regions'); ?>">Relatórios Por Região</a></li>
+                    </ul>
+                    <ul class="slide-menu">
+                        <li><a class="slide-item" href="#<?= url('/admin/reports/clients'); ?>">Relatórios Por Clientes</a></li>
+                    </ul>
+                    <ul class="slide-menu">
+                        <li><a class="slide-item" href="#<?= url('/admin/reports/months'); ?>">Relatórios Por Mês</a></li>
                     </ul>
                 </li>
             </ul>
