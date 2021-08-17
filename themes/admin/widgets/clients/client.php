@@ -50,7 +50,7 @@
                                                 <label>Vendedor</label>
                                                 <select class="form-control" name="seller_id" required>
                                                     <?php foreach ($sellers as $seller): ?>
-                                                        <option value="<?= $seller->id; ?>"><?= $seller->name; ?></option>
+                                                        <option value="<?= $seller->id; ?>"><?= $seller->fullName(); ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
@@ -69,8 +69,8 @@
                                         </div>
                                     <?php endif; ?>
                                     <div class="form-group col-md-6">
-                                        <label>Data do Contato</label>
-                                        <input type="text" class="form-control mask-date" name="contact_date"
+                                        <label>Data do Cadastro</label>
+                                        <input type="text" class="form-control mask-date" name="registration_date"
                                                placeholder="Digite sua data">
                                     </div>
                                 </div>
@@ -135,7 +135,7 @@
                                             <label>Vendedor</label>
                                             <select class="form-control" name="seller_id" required>
                                                 <?php foreach ($sellers as $seller): ?>
-                                                    <option value="<?= $seller->id; ?>" <?= ($seller->id == $sellerSelected) ? "selected" : ""; ?>><?= $seller->name; ?></option>
+                                                    <option value="<?= $seller->id; ?>" <?= ($seller->id == $sellerSelected) ? "selected" : ""; ?>><?= $seller->fullName(); ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
@@ -151,9 +151,9 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>Data do Contato</label>
-                                        <input type="text" class="form-control mask-date" name="contact_date"
-                                               value="<?= date_fmt($client->contact_date, "d/m/Y"); ?>"
+                                        <label>Data do Cadastro</label>
+                                        <input type="text" class="form-control mask-date" name="registration_date"
+                                               value="<?= date_fmt($client->registration_date, "d/m/Y"); ?>"
                                                placeholder="Digite sua data">
                                     </div>
                                 </div>

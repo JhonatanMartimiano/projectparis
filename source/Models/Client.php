@@ -18,7 +18,7 @@ class Client extends Model
     public function __construct()
     {
         parent::__construct("clients", ["id"],
-            ["name","city", "state", "phone", "seller_id", "funnel_id", "contact_date"]);
+            ["name","city", "state", "phone", "seller_id", "funnel_id", "registration_date"]);
     }
 
     /**
@@ -27,6 +27,13 @@ class Client extends Model
     public function sellerName(): string
     {
         $find = (new Seller())->findById($this->seller_id);
-        return $find->name;
+        return "{$find->first_name} {$find->last_name}";
+    }
+
+    public function lastNegotiationInfo()
+    {
+        $find = (new Negotiation())->find("client_id = :cid", "cid={$this->id}");
+        $count = $find->count() - 1;
+        return $find->fetch(true)[$count];
     }
 }

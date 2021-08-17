@@ -39,7 +39,7 @@
                                         <th>Cidade</th>
                                         <th>Estado</th>
                                         <th>Vendedor</th>
-                                        <th>Data do Contato</th>
+                                        <th>Data do Cadastro</th>
                                         <th>Ações</th>
                                     </tr>
                                 </thead>
@@ -51,7 +51,7 @@
                                         <td><?= $client->city; ?></td>
                                         <td><?= $client->state; ?></td>
                                         <td><?= $client->sellerName(); ?></td>
-                                        <td><?= date_fmt($client->contact_date, "d/m/Y"); ?></td>
+                                        <td><?= date_fmt($client->registration_date, "d/m/Y"); ?></td>
                                         <td align="center">
                                             <a href="<?= url('/admin/clients/client/'.$client->id); ?>"
                                                 class="btn btn-info btn-sm" title="Editar"><i

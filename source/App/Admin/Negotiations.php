@@ -45,8 +45,43 @@ class Negotiations extends Admin
      */
     public function negotiation(?array $data): void
     {
-        $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
-        $client = (new Client())->findById($data["client_id"]);
+        //create
+        if (!empty($data["action"]) && $data["action"] == "create") {
+            $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
+            $client = (new Client())->findById($data["client_id"]);
+
+            $negotiationCreate = new Negotiation();
+            $negotiationCreate->client_id = $client->id;
+            $negotiationCreate->seller_id = $client->seller_id;
+            $negotiationCreate->met_us = $data["met_us"];
+            $negotiationCreate->branch = $data["branch"];
+            $negotiationCreate->contact_type = $data["contact_type"];
+            $negotiationCreate->reason_loss = $data["reason_loss"];
+            $negotiationCreate->status = $data["status"];
+            $negotiationCreate->next_contact = ($data["next_contact"]) ? date_fmt_back($data["next_contact"]) : date("Y-m-d");
+            $negotiationCreate->funnel_id = $client->funnel_id;
+            $negotiationCreate->description = $data["description"];
+
+            if (!$negotiationCreate->save()) {
+                $json["message"] = $negotiationCreate->message()->render();
+                echo json_encode($json);
+                return;
+            }
+
+            $client->funnel_id = $data["funnel_id"];
+
+            if (!$client->save()) {
+                $json["message"] = $negotiationCreate->message()->render();
+                echo json_encode($json);
+                return;
+            }
+
+            $this->message->success("Negociação salva com sucesso...")->flash();
+            $json["redirect"] = url("/admin/negotiations/home");
+
+            echo json_encode($json);
+            return;
+        }
 
         $head = $this->seo->render(
             CONF_SITE_NAME . " | Nova Negociação",
@@ -56,13 +91,17 @@ class Negotiations extends Admin
             false
         );
 
+
+        $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
+        $client = (new Client())->findById($data["client_id"]);
+
         echo $this->view->render("widgets/negotiations/negotiation", [
             "app" => "clients/home",
             "head" => $head,
             "client" => $client,
             "funnels" => (new Funnel())->find()->fetch(true),
-            "funnelSelected" => $client->funnel_id
-
+            "funnelSelected" => $client->funnel_id,
+            "negotiations" => (new Negotiation())->order("id DESC")->find("client_id = :cid", "cid={$client->id}")->fetch(true)
         ]);
     }
 }

@@ -34,7 +34,8 @@ class Users extends Admin
         }
 
         $search = null;
-        $users = (new User())->find();
+        $level = 5;
+        $users = (new User())->find("level >= :lvl", "lvl={$level}");
 
         if (!empty($data["search"]) && str_search($data["search"]) != "all") {
             $search = str_search($data["search"]);

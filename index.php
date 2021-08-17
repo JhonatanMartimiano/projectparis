@@ -81,6 +81,7 @@ $route->get("/funnels/funnel/{funnel_id}", "Funnels:funnel");
 $route->post("/funnels/funnel/{funnel_id}", "Funnels:funnel");
 $route->get("/negotiations/home", "Negotiations:home");
 $route->get("/negotiations/negotiation/{client_id}", "Negotiations:negotiation");
+$route->post("/negotiations/negotiation/{client_id}", "Negotiations:negotiation");
 
 //notification center
 $route->post("/notifications/count", "Notifications:count");

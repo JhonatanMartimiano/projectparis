@@ -3,6 +3,7 @@
 namespace Source\App\Admin;
 
 use Source\Models\Seller;
+use Source\Models\User;
 use Source\Support\Pager;
 use Source\Support\Thumb;
 
@@ -74,16 +75,32 @@ class Sellers extends Admin
         //create
         if (!empty($data["action"]) && $data["action"] == "create") {
             $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
+            $user = new User();
 
             $sellerCreate = new Seller();
-            $sellerCreate->name = $data["name"];
+            $sellerCreate->first_name = $data["first_name"];
+            $sellerCreate->last_name = $data["last_name"];
             $sellerCreate->email = $data["email"];
             $sellerCreate->password = $data["password"];
             $sellerCreate->level = 2;
             $sellerCreate->cpf = preg_replace("/[^0-9]/", "", $data["cpf"]);
 
+
             if (!$sellerCreate->save()) {
                 $json["message"] = $sellerCreate->message()->render();
+                echo json_encode($json);
+                return;
+            }
+
+            $user->first_name = $data["first_name"];
+            $user->last_name = $data["last_name"];
+            $user->email = $data["email"];
+            $user->password = $data["password"];
+            $user->level = 2;
+            $user->seller_id = $sellerCreate->id;
+
+            if (!$user->save()) {
+                $json["message"] = $user->message()->render();
                 echo json_encode($json);
                 return;
             }
@@ -99,6 +116,7 @@ class Sellers extends Admin
         if (!empty($data["action"]) && $data["action"] == "update") {
             $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
             $sellerUpdate = (new Seller())->findById($data["seller_id"]);
+            $user = (new User())->find("seller_id = :sid", "sid={$data['seller_id']}")->fetch();
 
             if (!$sellerUpdate) {
                 $this->message->error("Você tentou gerenciar um vendedor que não existe")->flash();
@@ -106,7 +124,8 @@ class Sellers extends Admin
                 return;
             }
 
-            $sellerUpdate->name = $data["name"];
+            $sellerUpdate->first_name = $data["first_name"];
+            $sellerUpdate->last_name = $data["last_name"];
             $sellerUpdate->email = $data["email"];
             $sellerUpdate->password = (!empty($data["password"]) ? $data["password"] : $sellerUpdate->password);
             $sellerUpdate->level = 2;
@@ -114,6 +133,17 @@ class Sellers extends Admin
 
             if (!$sellerUpdate->save()) {
                 $json["message"] = $sellerUpdate->message()->render();
+                echo json_encode($json);
+                return;
+            }
+
+            $user->first_name = $data["first_name"];
+            $user->last_name = $data["last_name"];
+            $user->email = $data["email"];
+            $user->password = (!empty($data["password"]) ? $data["password"] : $user->password);
+
+            if (!$user->save()) {
+                $json["message"] = $user->message()->render();
                 echo json_encode($json);
                 return;
             }

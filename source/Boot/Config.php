@@ -20,9 +20,9 @@ if ($_SERVER['HTTP_HOST'] == "www.localhost") {
 /**
  * SITE
  */
-define("CONF_SITE_NAME", "New Control");
+define("CONF_SITE_NAME", "Paris");
 define("CONF_SITE_TITLE", "Gerencie suas contas com o melhor café");
-define("CONF_SITE_DESC", "O New Control é um gerenciador de clientes simples, poderoso e gratuito.");
+define("CONF_SITE_DESC", "O Paris é um gerenciador de clientes simples, poderoso e gratuito.");
 define("CONF_SITE_LANG", "pt_BR");
 define("CONF_SITE_DOMAIN", "");
 define("CONF_SITE_ADDR_STREET", "");

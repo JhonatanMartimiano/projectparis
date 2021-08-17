@@ -17,7 +17,7 @@ class Seller extends Model
      */
     public function __construct()
     {
-        parent::__construct("sellers", ["id"], ["name", "email", "password", "cpf"]);
+        parent::__construct("sellers", ["id"], ["first_name", "last_name", "email", "password", "cpf"]);
     }
 
     /**
@@ -29,6 +29,14 @@ class Seller extends Model
     {
         $find = $this->find("email = :email", "email={$email}", $columns);
         return $find->fetch();
+    }
+
+    /**
+     * @return string
+     */
+    public function fullName(): string
+    {
+        return "{$this->first_name} {$this->last_name}";
     }
 
     /**

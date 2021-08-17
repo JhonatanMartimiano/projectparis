@@ -84,7 +84,7 @@ class Clients extends Admin
             $clientCreate->phone = preg_replace("/[^0-9]/", "", $data["phone"]);
             $clientCreate->seller_id = $data["seller_id"];
             $clientCreate->funnel_id = $data["funnel_id"];
-            $clientCreate->contact_date = date_fmt_back($data["contact_date"]);
+            $clientCreate->registration_date = date_fmt_back($data["registration_date"]);
 
             if (!$clientCreate->save()) {
                 $json["message"] = $clientCreate->message()->render();
@@ -116,7 +116,7 @@ class Clients extends Admin
             $clientUpdate->phone = preg_replace("/[^0-9]/", "", $data["phone"]);
             $clientUpdate->seller_id = $data["seller_id"];
             $clientUpdate->funnel_id = $data["funnel_id"];
-            $clientUpdate->contact_date = date_fmt_back($data["contact_date"]);
+            $clientUpdate->registration_date = date_fmt_back($data["registration_date"]);
 
             if (!$clientUpdate->save()) {
                 $json["message"] = $clientUpdate->message()->render();

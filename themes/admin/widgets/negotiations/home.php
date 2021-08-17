@@ -30,11 +30,18 @@
                                             <div class="card-body overflow-auto">
                                                 <?php if ($funnel->funnelClients()): ?>
                                                     <?php foreach ($funnel->funnelClients() as $client): ?>
-                                                        <a href="<?= url('/admin/negotiations/negotiation/'.$client->id); ?>" class="p-1">
-                                                            <div class="border rounded">
+                                                        <a href="<?= url('/admin/negotiations/negotiation/' . $client->id); ?>"
+                                                           class="p-1">
+                                                            <div class="border <?= ($client->lastNegotiationInfo()->next_contact) ? date_fmt_color($client->lastNegotiationInfo()->next_contact) : date_fmt_color($client->registration_date); ?> rounded">
                                                                 <p class="m-0">Cliente: <?= $client->name; ?></p>
-                                                                <p class="m-0">Vendedor: <?= $client->sellerName(); ?></p>
-                                                                <p class="m-0">Data de Contato: <?= date_fmt($client->contact_date, "d/m/Y"); ?></p>
+                                                                <p class="m-0">
+                                                                    Vendedor: <?= $client->sellerName(); ?></p>
+                                                                <p class="m-0">Data do
+                                                                    Cadastro: <?= date_fmt($client->registration_date,
+                                                                        "d/m/Y"); ?></p>
+                                                                <p class="m-0">Data do Próximo
+                                                                    Contato: <?= ($client->lastNegotiationInfo()->next_contact) ? date_fmt($client->lastNegotiationInfo()->next_contact,
+                                                                        "d/m/Y") : "Não informado."; ?></p>
                                                             </div>
                                                         </a>
                                                     <?php endforeach; ?>

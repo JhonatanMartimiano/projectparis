@@ -97,9 +97,11 @@ $userPhoto = ($photo ? image($photo, 300, 300) : url("/shared/images/avatar.jpg"
                                 <img src="<?= $userPhoto ?>" alt="profile-img" class="avatar avatar-md brround">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow ">
-                                <a class="dropdown-item" href="<?= url('/admin/users/user/' . user()->id); ?>">
-                                    <i class="dropdown-icon icon icon-user"></i> Perfil
-                                </a>
+                                <?php if (user()->level >= 5): ?>
+                                    <a class="dropdown-item" href="<?= url('/admin/users/user/' . user()->id); ?>">
+                                        <i class="dropdown-icon icon icon-user"></i> Perfil
+                                    </a>
+                                <?php endif; ?>
                                 <a class="dropdown-item" href="<?= url('/admin/logoff'); ?>">
                                     <i class="dropdown-icon icon icon-logoff"></i> Sair
                                 </a>
@@ -118,9 +120,11 @@ $userPhoto = ($photo ? image($photo, 300, 300) : url("/shared/images/avatar.jpg"
                 <div class="dropdown user-pro-body">
                     <div>
                         <img src="<?= $userPhoto; ?>" alt="user-img" class="avatar avatar-lg brround">
-                        <a href="<?= url('/admin/users/user/' . user()->id); ?>" class="profile-img">
-                            <span class="fa fa-pencil" aria-hidden="true"></span>
-                        </a>
+                        <?php if (user()->level >= 5): ?>
+                            <a href="<?= url('/admin/users/user/' . user()->id); ?>" class="profile-img">
+                                <span class="fa fa-pencil" aria-hidden="true"></span>
+                            </a>
+                        <?php endif; ?>
                     </div>
                     <div class="user-info">
                         <h2><?= user()->fullName(); ?></h2>
@@ -130,29 +134,47 @@ $userPhoto = ($photo ? image($photo, 300, 300) : url("/shared/images/avatar.jpg"
             <ul class="side-menu">
                 <li>
                     <a class="side-menu__item" href="<?= url('/admin/dash/home'); ?>"><i
-                                class="side-menu__icon fa fa-home"></i><span class="side-menu__label">Dashboard</span></a>
+                                class="side-menu__icon fa fa-home"></i><span
+                                class="side-menu__label">Dashboard</span></a>
                 </li>
                 <li>
                     <a class="side-menu__item" href="<?= url('/admin/negotiations/home'); ?>"><i
-                                class="side-menu__icon fa fa-money"></i><span class="side-menu__label">Negociações</span></a>
+                                class="side-menu__icon fa fa-money"></i><span
+                                class="side-menu__label">Negociações</span></a>
                 </li>
-                <li>
-                    <a class="side-menu__item" href="<?= url('/admin/users/home'); ?>"><i
-                                class="side-menu__icon fa fa-users"></i><span class="side-menu__label">Usuários</span></a>
-                </li>
-                <li>
-                    <a class="side-menu__item" href="<?= url('/admin/sellers/home'); ?>"><i
-                                class="side-menu__icon fa fa-users"></i><span class="side-menu__label">Vendedores</span></a>
-                </li>
-                <li>
-                    <a class="side-menu__item" href="<?= url('/admin/clients/home'); ?>"><i
-                                class="side-menu__icon fa fa-users"></i><span class="side-menu__label">Clientes</span></a>
-                </li>
+                <?php if (user()->level >= 5): ?>
+                    <li>
+                        <a class="side-menu__item" href="<?= url('/admin/users/home'); ?>"><i
+                                    class="side-menu__icon fa fa-user"></i><span
+                                    class="side-menu__label">Usuários</span></a>
+                    </li>
+                    <li>
+                        <a class="side-menu__item" href="<?= url('/admin/sellers/home'); ?>"><i
+                                    class="side-menu__icon fa fa-user-plus"></i><span
+                                    class="side-menu__label">Vendedores</span></a>
+                    </li>
+                    <li>
+                        <a class="side-menu__item" href="<?= url('/admin/clients/home'); ?>"><i
+                                    class="side-menu__icon fa fa-users"></i><span
+                                    class="side-menu__label">Clientes</span></a>
+                    </li>
+                    <li class="slide">
+                        <a class="side-menu__item" data-toggle="slide" href="#"><i
+                                    class="side-menu__icon fa fa-cogs"></i><span
+                                    class="side-menu__label">Premissas Gerais</span><i
+                                    class="angle fa fa-angle-right"></i></a>
+                        <ul class="slide-menu">
+                            <li><a class="slide-item" href="<?= url('/admin/funnels/home'); ?>">Funil de Venda</a></li>
+                        </ul>
+                    </li>
+                <?php endif; ?>
                 <li class="slide">
-                    <a class="side-menu__item" data-toggle="slide" href="#"><i class="side-menu__icon fa fa-cogs"></i><span
-                                class="side-menu__label">Premissas Gerais</span><i class="angle fa fa-angle-right"></i></a>
+                    <a class="side-menu__item" data-toggle="slide" href="#"><i
+                                class="side-menu__icon fa fa-list"></i><span
+                                class="side-menu__label">Relatórios</span><i
+                                class="angle fa fa-angle-right"></i></a>
                     <ul class="slide-menu">
-                        <li><a class="slide-item" href="<?= url('/admin/funnels/home'); ?>">Funil de Venda</a></li>
+                        <li><a class="slide-item" href="#">Relatórios Por Vendedor</a></li>
                     </ul>
                 </li>
             </ul>

@@ -45,7 +45,7 @@
                                     <?php foreach ($sellers as $seller): ?>
                                     <tr>
                                         <th scope="row"><?= $seller->id; ?></th>
-                                        <td><?= $seller->name; ?></td>
+                                        <td><?= $seller->fullName(); ?></td>
                                         <td><?= $seller->email; ?></td>
                                         <td class="mask-doc"><?= $seller->cpf; ?></td>
                                         <td align="center">

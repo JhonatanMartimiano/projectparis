@@ -8,6 +8,16 @@ class Negotiation extends Model
 {
     public function __construct()
     {
-        parent::__construct("negotiations", ["id"], []);
+        parent::__construct("negotiations", ["id"], [
+            "client_id",
+            "seller_id",
+            "met_us",
+            "branch",
+            "contact_type",
+            "status",
+            "next_contact",
+            "funnel_id",
+            "description"
+        ]);
     }
 }

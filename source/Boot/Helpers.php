@@ -271,21 +271,6 @@ function image(?string $image, int $width, int $height = null): ?string
  * ###   DATE   ###
  * ################
  */
-function date_diff_panel(string $dateEnd, string $dateStart = "now"): int
-{
-    $date1 = new DateTime($dateStart);
-    $date2 = new DateTime($dateEnd);
-    $interval = $date1->diff($date2);
-    $result = $interval->days;
-    $flag = $interval->invert; // 1 se data passada, 0 se data futura
-    if($flag === 0) {
-        //data futura
-        return $result + 1;
-    } else {
-        //data passada
-        return -abs($result);
-    }
-}
 
 /**
  * @param string $date
@@ -338,6 +323,40 @@ function date_fmt_back(?string $date): ?string
     }
 
     return implode("-", array_reverse(explode("/", $date)));
+}
+
+/**
+ * @param string $dateEnd
+ * @param string $dateStart
+ * @return int
+ * @throws Exception
+ */
+function date_diff_panel(string $dateEnd, string $dateStart = "now"): int
+{
+    $date1 = new DateTime($dateStart);
+    $date2 = new DateTime($dateEnd);
+    $interval = $date1->diff($date2);
+    $result = $interval->days;
+    $flag = $interval->invert; // 1 se data passada, 0 se data futura
+    if($flag === 0) {
+        //data futura
+        return $result + 1;
+    } else {
+        //data passada
+        return -abs($result);
+    }
+}
+
+function date_fmt_color(string $dataEnd): string
+{
+    $class = null;
+
+    if (date_diff_panel($dataEnd) >= -2) {
+        $class = "border-warning";
+    } elseif (date_diff_panel($dataEnd) <= -3) {
+        $class = "border-danger";
+    }
+    return $class;
 }
 
 /**

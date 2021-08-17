@@ -46,7 +46,7 @@
                                     <tr>
                                         <th scope="row"><?= $user->id; ?></th>
                                         <td><?= $user->fullName(); ?></td>
-                                        <td><?= ($user->level >=5) ? "Admin" : "Colaborador"; ?></td>
+                                        <td><?= ($user->level >=5) ? "Admin" : "Vendedor"; ?></td>
                                         <td><?= $user->email; ?></td>
                                         <td align="center">
                                             <a href="<?= url('/admin/users/user/'.$user->id); ?>"

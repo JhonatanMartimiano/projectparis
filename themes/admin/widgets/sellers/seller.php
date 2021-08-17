@@ -25,8 +25,15 @@
                                 <div class="form-group col-md-6">
                                     <div class="form-group">
                                         <label>Nome</label>
-                                        <input type="text" class="form-control" name="name"
+                                        <input type="text" class="form-control" name="first_name"
                                             placeholder="Digite seu nome">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="form-group">
+                                        <label>Sobrenome</label>
+                                        <input type="text" class="form-control" name="last_name"
+                                               placeholder="Digite seu sobrenome">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
@@ -78,8 +85,15 @@
                                 <div class="form-group col-md-6">
                                     <div class="form-group">
                                         <label>Nome</label>
-                                        <input type="text" class="form-control" name="name"
-                                            value="<?= $seller->name; ?>" placeholder="Digite seu nome">
+                                        <input type="text" class="form-control" name="first_name"
+                                            value="<?= $seller->first_name; ?>" placeholder="Digite seu nome">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <div class="form-group">
+                                        <label>Sobrenome</label>
+                                        <input type="text" class="form-control" name="last_name"
+                                               value="<?= $seller->last_name; ?>" placeholder="Digite seu sobrenome">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
