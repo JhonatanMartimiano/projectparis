@@ -57,7 +57,7 @@ class Negotiations extends Admin
             $negotiationCreate->branch = $data["branch"];
             $negotiationCreate->contact_type = $data["contact_type"];
             $negotiationCreate->next_contact = ($data["next_contact"]) ? date_fmt_back($data["next_contact"]) : date("Y-m-d");
-            $negotiationCreate->funnel_id = $client->funnel_id;
+            $negotiationCreate->funnel_id = $data["funnel_id"];
             $negotiationCreate->description = $data["description"];
 
             if (!$negotiationCreate->save()) {
@@ -101,7 +101,7 @@ class Negotiations extends Admin
             "client" => $client,
             "funnels" => (new Funnel())->find()->fetch(true),
             "funnelSelected" => $client->funnel_id,
-            "negotiations" => (new Negotiation())->order("id DESC")->find("client_id = :cid", "cid={$client->id}")->fetch(true)
+            "negotiations" => (new Negotiation())->find("client_id = :cid", "cid={$client->id}")->fetch(true)
         ]);
     }
 }

@@ -4,8 +4,14 @@ namespace Source\Models;
 
 use Source\Core\Model;
 
+/**
+ * @package Source\Models
+ */
 class Negotiation extends Model
 {
+    /**
+     * Negotiation constructor.
+     */
     public function __construct()
     {
         parent::__construct("negotiations", ["id"], [
@@ -18,5 +24,18 @@ class Negotiation extends Model
             "funnel_id",
             "description"
         ]);
+    }
+
+    public function infoFunnel()
+    {
+        return (new Funnel())->findById($this->funnel_id);
+    }
+
+    /**
+     * @return mixed|Model|null
+     */
+    public function infoClient()
+    {
+        return (new Client())->findById($this->client_id);
     }
 }

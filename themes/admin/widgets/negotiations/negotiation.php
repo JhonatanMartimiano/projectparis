@@ -49,42 +49,88 @@
                                                value="<?= $client->phone; ?>" readonly>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-6">
                                     <div class="form-group">
                                         <label>Como nos conheceu</label>
                                         <select name="met_us" class="form-control">
                                             <option value="">Selecione uma opção</option>
-                                            <option value="Instagram" <?= ("Instagram" == $client->lastNegotiationInfo()->met_us) ? "selected" : ""; ?>>Instagram</option>
-                                            <option value="Facebook" <?= ("Facebook" == $client->lastNegotiationInfo()->met_us) ? "selected" : ""; ?>>Facebook</option>
-                                            <option value="Indicação" <?= ("Indicação" == $client->lastNegotiationInfo()->met_us) ? "selected" : ""; ?>>Indicação</option>
-                                            <option value="Blogueira" <?= ("Blogueira" == $client->lastNegotiationInfo()->met_us) ? "selected" : ""; ?>>Blogueira</option>
-                                            <option value="Google" <?= ("Google" == $client->lastNegotiationInfo()->met_us) ? "selected" : ""; ?>>Google</option>
+                                            <option value="Instagram" <?= ("Instagram" == $client->lastNegotiationInfo()->met_us) ? "selected" : ""; ?>>
+                                                Instagram
+                                            </option>
+                                            <option value="Facebook" <?= ("Facebook" == $client->lastNegotiationInfo()->met_us) ? "selected" : ""; ?>>
+                                                Facebook
+                                            </option>
+                                            <option value="Indicação" <?= ("Indicação" == $client->lastNegotiationInfo()->met_us) ? "selected" : ""; ?>>
+                                                Indicação
+                                            </option>
+                                            <option value="Blogueira" <?= ("Blogueira" == $client->lastNegotiationInfo()->met_us) ? "selected" : ""; ?>>
+                                                Blogueira
+                                            </option>
+                                            <option value="Google" <?= ("Google" == $client->lastNegotiationInfo()->met_us) ? "selected" : ""; ?>>
+                                                Google
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-6">
                                     <div class="form-group">
                                         <label>Ramo</label>
                                         <select name="branch" class="form-control">
                                             <option value="">Selecione uma opção</option>
-                                            <option value="Vendedor" <?= ("Vendedor" == $client->lastNegotiationInfo()->branch) ? "selected" : ""; ?>>Vendedor</option>
-                                            <option value="Distribuidor" <?= ("Distribuidor" == $client->lastNegotiationInfo()->branch) ? "selected" : ""; ?>>Distribuidor</option>
-                                            <option value="Salão" <?= ("Salão" == $client->lastNegotiationInfo()->branch) ? "selected" : ""; ?>>Salão</option>
-                                            <option value="Outros" <?= ("Outros" == $client->lastNegotiationInfo()->branch) ? "selected" : ""; ?>>Outros</option>
+                                            <option value="Vendedor" <?= ("Vendedor" == $client->lastNegotiationInfo()->branch) ? "selected" : ""; ?>>
+                                                Vendedor
+                                            </option>
+                                            <option value="Distribuidor" <?= ("Distribuidor" == $client->lastNegotiationInfo()->branch) ? "selected" : ""; ?>>
+                                                Distribuidor
+                                            </option>
+                                            <option value="Salão" <?= ("Salão" == $client->lastNegotiationInfo()->branch) ? "selected" : ""; ?>>
+                                                Salão
+                                            </option>
+                                            <option value="Outros" <?= ("Outros" == $client->lastNegotiationInfo()->branch) ? "selected" : ""; ?>>
+                                                Outros
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <div class="form-group">
-                                        <label>Tipo do Contato</label>
+                                        <label>Etapa</label>
                                         <select name="contact_type" class="form-control">
                                             <option value="">Selecione uma opção</option>
-                                            <option value="Vídeo" <?= ("Vídeo" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>Vídeo</option>
-                                            <option value="Planilha" <?= ("Planilha" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>Planilha</option>
+                                            <option value="Apresentação" <?= ("Apresentação" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>
+                                                Apresentação
+                                            </option>
+                                            <option value="Tabela" <?= ("Tabela" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>
+                                                Tabela
+                                            </option>
+                                            <option value="Catalago" <?= ("Catalago" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>
+                                                Catalago
+                                            </option>
+                                            <option value="Proposta" <?= ("Proposta" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>
+                                                Proposta
+                                            </option>
+                                            <option value="Orçamento" <?= ("Orçamento" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>
+                                                Orçamento
+                                            </option>
+                                            <option value="Cotação" <?= ("Cotação" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>
+                                                Cotação
+                                            </option>
+                                            <option value="APagamento" <?= ("APagamento" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>
+                                                Aguardando Pagamento
+                                            </option>
+                                            <option value="PFinalizado" <?= ("PFinalizado" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>
+                                                Pedido Finalizado
+                                            </option>
+                                            <option value="NRespondeu" <?= ("NRespondeu" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>
+                                                Não Respondeu
+                                            </option>
+                                            <option value="Marketing" <?= ("Marketing" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>
+                                                Marketing
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-3 d-none">
                                     <div class="form-group">
                                         <label>Data do Cadastro</label>
                                         <input type="text" class="form-control"
@@ -96,11 +142,21 @@
                                         <label>Motivo da perda</label>
                                         <select name="reason_loss" class="form-control">
                                             <option value="">Selecione uma opção</option>
-                                            <option value="Preço" <?= ("Preço" == $client->lastNegotiationInfo()->reason_loss) ? "selected" : ""; ?>>Preço</option>
-                                            <option value="Cadastro" <?= ("Cadastro" == $client->lastNegotiationInfo()->reason_loss) ? "selected" : ""; ?>>Cadastro Reprovado</option>
-                                            <option value="Investimento" <?= ("Investimento" == $client->lastNegotiationInfo()->reason_loss) ? "selected" : ""; ?>>Sem Investimento</option>
-                                            <option value="Prazo" <?= ("Prazo" == $client->lastNegotiationInfo()->reason_loss) ? "selected" : ""; ?>>Prazo</option>
-                                            <option value="Frete" <?= ("Frete" == $client->lastNegotiationInfo()->reason_loss) ? "selected" : ""; ?>>Frete</option>
+                                            <option value="Preço" <?= ("Preço" == $client->lastNegotiationInfo()->reason_loss) ? "selected" : ""; ?>>
+                                                Preço
+                                            </option>
+                                            <option value="Cadastro" <?= ("Cadastro" == $client->lastNegotiationInfo()->reason_loss) ? "selected" : ""; ?>>
+                                                Cadastro Reprovado
+                                            </option>
+                                            <option value="Investimento" <?= ("Investimento" == $client->lastNegotiationInfo()->reason_loss) ? "selected" : ""; ?>>
+                                                Sem Investimento
+                                            </option>
+                                            <option value="Prazo" <?= ("Prazo" == $client->lastNegotiationInfo()->reason_loss) ? "selected" : ""; ?>>
+                                                Prazo
+                                            </option>
+                                            <option value="Frete" <?= ("Frete" == $client->lastNegotiationInfo()->reason_loss) ? "selected" : ""; ?>>
+                                                Frete
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -109,20 +165,26 @@
                                         <label>Status</label>
                                         <select name="status" class="form-control">
                                             <option value="">Selecione uma opção</option>
-                                            <option value="Negociação" <?= ("Negociação" == $client->status) ? "selected" : ""; ?>>Em Negociação</option>
-                                            <option value="Concluído" <?= ("Concluído" == $client->status) ? "selected" : ""; ?>>Concluído</option>
+                                            <option value="Negociação" <?= ("Negociação" == $client->status) ? "selected" : ""; ?>>
+                                                Em Negociação
+                                            </option>
+                                            <option value="Concluído" <?= ("Concluído" == $client->status) ? "selected" : ""; ?>>
+                                                Concluído
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-1">
                                     <div class="form-group">
                                         <label>Data</label>
-                                        <input type="text" name="next_contact" value="<?= ($client->lastNegotiationInfo()->next_contact) ? date_fmt($client->lastNegotiationInfo()->next_contact, "d/m/Y") : ''; ?>" class="form-control mask-date">
+                                        <input type="text" name="next_contact"
+                                               value="<?= ($client->lastNegotiationInfo()->next_contact) ? date_fmt($client->lastNegotiationInfo()->next_contact, "d/m/Y") : ''; ?>"
+                                               class="form-control mask-date">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <label>Etapa</label>
+                                        <label>Contato</label>
                                         <select class="form-control" name="funnel_id" required>
                                             <?php foreach ($funnels as $funnel): ?>
                                                 <option value="<?= $funnel->id; ?>" <?= ($funnel->id == $funnelSelected) ? "selected" : ""; ?>><?= $funnel->title; ?></option>
@@ -131,8 +193,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12">
-                                    <label>Descrição</label>
-                                    <textarea name="description" rows="5"
+                                    <label>Observação</label>
+                                    <textarea name="description" rows="2"
                                               class="form-control" placeholder="Digite sua descrição"></textarea>
                                 </div>
                             </div>
@@ -149,29 +211,37 @@
                         <h3 class="card-title">Histórico da Negociação</h3>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered border-top mb-0">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Data do Contato</th>
-                                    <th>Tipo do Contato</th>
-                                    <th>Descrição</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php if ($negotiations): ?>
-                                    <?php foreach ($negotiations as $negotiation): ?>
-                                        <tr>
-                                            <th scope="row"><?= $negotiation->id; ?></th>
-                                            <td><?= date_fmt($negotiation->created_at); ?></td>
-                                            <td><?= $negotiation->contact_type; ?></td>
-                                            <td><?= $negotiation->description; ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                                </tbody>
-                            </table>
+                        <div class="d-flex">
+                            <?php if ($negotiations): ?>
+                                <?php foreach ($negotiations as $negotiation): ?>
+                                    <div class="d-flex">
+                                        <div>
+                                            <div class="border pr-5">
+                                                <h5><?= $negotiation->infoFunnel()->title; ?></h5>
+                                            </div>
+                                            <div class="border-left border-right border-bottom p-1">
+                                                <p class="m-0"><?= date_fmt_br($negotiation->created_at); ?></p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="border pr-5">
+                                                <h5>ETAPA</h5>
+                                            </div>
+                                            <div class="border-left border-right border-bottom p-1">
+                                                <p class="m-0"><?= $negotiation->contact_type; ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                                <div>
+                                    <div class="border pr-5">
+                                        <h5>Oberservação</h5>
+                                    </div>
+                                    <div class="border-left border-right border-bottom p-1">
+                                        <p class="m-0"><?= $negotiation->infoClient()->lastNegotiationInfo()->description; ?></p>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

@@ -30,6 +30,11 @@ class Client extends Model
         return "{$find->first_name} {$find->last_name}";
     }
 
+    public function stepTitle()
+    {
+        return (new Funnel())->findById($this->funnel_id);
+    }
+
     public function lastNegotiationInfo()
     {
         $find = (new Negotiation())->find("client_id = :cid", "cid={$this->id}");

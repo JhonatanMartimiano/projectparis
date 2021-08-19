@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - .:/var/www/html
+    links:
+      - database
+  database:
+    image: mariadb:latest
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: databasedefault
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 4144
+      MYSQL_ROOT_PASSWORD: 4144

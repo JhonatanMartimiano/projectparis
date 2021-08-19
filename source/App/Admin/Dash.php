@@ -104,7 +104,7 @@ class Dash extends Admin
             "clientThirdStep" => (\user()->level >= 5) ? (new Client())->find("funnel_id = :fid","fid={$thirdStep}")->count() : (new Client())->find("seller_id = :sid AND funnel_id = :fid", "sid={$seller_id}&fid={$thirdStep}")->count(),
             "totalClients" => (\user()->level >= 5) ? (new Client())->find()->count() : (new Client())->find("seller_id = :sid", "sid={$seller_id}")->count(),
             "totalSellers" => (new Seller())->find()->count(),
-            "totalInNegotiations" => count($totalNegotiation),
+            "totalInNegotiations" => ($totalNegotiation) ? count($totalNegotiation) : "0",
             "totalInDelay" => ($totalInDelay) ? count($totalInDelay) : "0"
         ]);
     }
