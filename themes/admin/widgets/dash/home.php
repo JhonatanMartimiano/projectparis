@@ -123,22 +123,22 @@
                                             <th colspan="2">
                                                 1° Contato
                                                 <div class="d-flex justify-content-between">
-                                                    <p>Data</p>
                                                     <p>Etapa</p>
+                                                    <p>Data</p>
                                                 </div>
                                             </th>
                                             <th colspan="2">
                                                 2° Contato
                                                 <div class="d-flex justify-content-between">
-                                                    <p>Data</p>
                                                     <p>Etapa</p>
+                                                    <p>Data</p>
                                                 </div>
                                             </th>g
                                             <th colspan="2">
                                                 3° Contato
                                                 <div class="d-flex justify-content-between">
-                                                    <p>Data</p>
                                                     <p>Etapa</p>
+                                                    <p>Data</p>
                                                 </div>
                                             </th>
                                             <th>Descrição</th>
@@ -151,11 +151,11 @@
                                                     <td><a href="<?= url('/admin/negotiations/negotiation/'.$negotiation->getClientIDNeg($allNegotiation->id_neg)->client_id); ?>"><?= $allNegotiation->cliente; ?></a></td>
                                                     <td><?= $allNegotiation->vendedor; ?></td>
                                                     <td><?= $allNegotiation->etapa1; ?></td>
-                                                    <td><?= $allNegotiation->data1; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data1); ?></td>
                                                     <td><?= $allNegotiation->etapa2; ?></td>
-                                                    <td><?= $allNegotiation->data2; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data2); ?></td>
                                                     <td><?= $allNegotiation->etapa3; ?></td>
-                                                    <td><?= $allNegotiation->data3; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data3); ?></td>
                                                     <td><?= $allNegotiation->obs3; ?></td>
                                                 </tr>
                                             <?php elseif ($negotiation->getClientIDNeg($allNegotiation->id_neg)->contact_type == "PFinalizado"): ?>
@@ -163,11 +163,11 @@
                                                     <td><a href="<?= url('/admin/negotiations/negotiation/'.$negotiation->getClientIDNeg($allNegotiation->id_neg)->client_id); ?>"><?= $allNegotiation->cliente; ?></a></td>
                                                     <td><?= $allNegotiation->vendedor; ?></td>
                                                     <td><?= $allNegotiation->etapa1; ?></td>
-                                                    <td><?= $allNegotiation->data1; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data1); ?></td>
                                                     <td><?= $allNegotiation->etapa2; ?></td>
-                                                    <td><?= $allNegotiation->data2; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data2); ?></td>
                                                     <td><?= $allNegotiation->etapa3; ?></td>
-                                                    <td><?= $allNegotiation->data3; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data3); ?></td>
                                                     <td><?= $allNegotiation->obs3; ?></td>
                                                 </tr>
                                             <?php elseif ($negotiation->getClientIDNeg($allNegotiation->id_neg)->contact_type == "APagamento"): ?>
@@ -175,11 +175,11 @@
                                                     <td><a href="<?= url('/admin/negotiations/negotiation/'.$negotiation->getClientIDNeg($allNegotiation->id_neg)->client_id); ?>"><?= $allNegotiation->cliente; ?></a></td>
                                                     <td><?= $allNegotiation->vendedor; ?></td>
                                                     <td><?= $allNegotiation->etapa1; ?></td>
-                                                    <td><?= $allNegotiation->data1; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data1); ?></td>
                                                     <td><?= $allNegotiation->etapa2; ?></td>
-                                                    <td><?= $allNegotiation->data2; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data2); ?></td>
                                                     <td><?= $allNegotiation->etapa3; ?></td>
-                                                    <td><?= $allNegotiation->data3; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data3); ?></td>
                                                     <td><?= $allNegotiation->obs3; ?></td>
                                                 </tr>
                                             <?php elseif ($negotiation->getClientIDNeg($allNegotiation->id_neg)->contact_type == "NRespondeu"): ?>
@@ -187,11 +187,11 @@
                                                     <td><a href="<?= url('/admin/negotiations/negotiation/'.$negotiation->getClientIDNeg($allNegotiation->id_neg)->client_id); ?>"><?= $allNegotiation->cliente; ?></a></td>
                                                     <td><?= $allNegotiation->vendedor; ?></td>
                                                     <td><?= $allNegotiation->etapa1; ?></td>
-                                                    <td><?= $allNegotiation->data1; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data1); ?></td>
                                                     <td><?= $allNegotiation->etapa2; ?></td>
-                                                    <td><?= $allNegotiation->data2; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data2); ?></td>
                                                     <td><?= $allNegotiation->etapa3; ?></td>
-                                                    <td><?= $allNegotiation->data3; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data3); ?></td>
                                                     <td><?= $allNegotiation->obs3; ?></td>
                                                 </tr>
                                             <?php elseif (date_diff_panel($negotiation->getClientIDNeg($allNegotiation->id_neg)->next_contact) >= 0): ?>
@@ -199,11 +199,11 @@
                                                     <td><a href="<?= url('/admin/negotiations/negotiation/'.$negotiation->getClientIDNeg($allNegotiation->id_neg)->client_id); ?>"><?= $allNegotiation->cliente; ?></a></td>
                                                     <td><?= $allNegotiation->vendedor; ?></td>
                                                     <td><?= $allNegotiation->etapa1; ?></td>
-                                                    <td><?= $allNegotiation->data1; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data1); ?></td>
                                                     <td><?= $allNegotiation->etapa2; ?></td>
-                                                    <td><?= $allNegotiation->data2; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data2); ?></td>
                                                     <td><?= $allNegotiation->etapa3; ?></td>
-                                                    <td><?= $allNegotiation->data3; ?></td>
+                                                    <td><?= date_fmt_br($allNegotiation->data3); ?></td>
                                                     <td><?= $allNegotiation->obs3; ?></td>
                                                 </tr>
                                             <?php endif; ?>
