@@ -15,7 +15,7 @@
                 <div class="card-header">
                     <div class="row align-items-center col-12">
                         <div class="col-md-6 col-sm-12">
-                            <h5 class="card-title">Desempenho Vendedores:</h5>
+                            <h5 class="card-title">Desempenho Etapas:</h5>
                         </div>
                         <div class="d-flex justify-content-end col-md-6 col-sm-12">
                             <form class="form-inline mb-1" action="<?= url('/admin/reports/sellers'); ?>"
@@ -61,7 +61,7 @@
                                         <tr>
                                             <th scope="row"><?= $seller->id; ?></th>
                                             <td>
-                                                <a href="<?= url('/admin/reports/seller/'.$seller->id) ?>"><?= $seller->fullName(); ?></a>
+                                                <a href="<?= url('/admin/reports/step/'.$seller->id) ?>"><?= $seller->fullName(); ?></a>
                                             </td>
                                             <td><?= $seller->countClients(); ?></td>
                                         </tr>
@@ -84,23 +84,23 @@
             // Area chart
             var options = {
                 series: [{
-                    name: 'Atrasados 24H+',
-                    data: [<?= number_format($post24hour * 100 / $lastNegotiations, 2); ?>],
+                    name: 'Apresentação',
+                    data: [<?= number_format($presentation * 100 / $negotiations, 2); ?>],
                     color: "#ff382b"
                 },
                     {
-                        name: 'Pedidos Finalizados',
-                        data: [<?= number_format($completedOrders * 100 / $lastNegotiations, 2); ?>],
+                        name: 'Tabela',
+                        data: [<?= number_format($table * 100 / $negotiations, 2); ?>],
                         color: "#05a01f"
                     },
                     {
-                        name: 'Aguardando',
-                        data: [<?= number_format($waiting * 100 / $lastNegotiations, 2); ?>],
+                        name: 'Cotação',
+                        data: [<?= number_format($price * 100 / $negotiations, 2); ?>],
                         color: "#ffa22b"
                     },
                     {
-                        name: 'Em Negociação',
-                        data: [<?= number_format($inNegotiations * 100 / $lastNegotiations, 2); ?>],
+                        name: 'APagamento',
+                        data: [<?= number_format($apayment * 100 / $negotiations, 2); ?>],
                         color: "#1da1f3"
                     }
                 ],
@@ -129,7 +129,7 @@
                 },
 
                 xaxis: {
-                    categories: ["Atrasados 24H+", "Pedidos Finalizados", "Aguardando", "Em Negociação"],
+                    categories: ["Apresentação", "Tabela", "Cotação", "APagamento"],
                     position: 'top',
                     axisBorder: {
                         show: false

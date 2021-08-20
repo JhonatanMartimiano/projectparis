@@ -87,9 +87,11 @@ $route->post("/negotiations/negotiation/{client_id}", "Negotiations:negotiation"
 $route->get("/reports/sellers", "Reports:sellers");
 $route->post("/reports/sellers", "Reports:sellers");
 $route->get("/reports/sellers/{search}/{page}", "Reports:sellers");
-$route->get("/reports/regions", "Reports:regions");
-$route->post("/reports/regions", "Reports:regions");
-$route->get("/reports/regions/{search}/{page}", "Reports:regions");
+$route->get("/reports/seller/{seller_id}", "Reports:seller");
+$route->get("/reports/steps", "Reports:steps");
+$route->post("/reports/steps", "Reports:steps");
+$route->get("/reports/steps/{search}/{page}", "Reports:steps");
+$route->get("/reports/step/{seller_id}", "Reports:step");
 
 //notification center
 $route->post("/notifications/count", "Notifications:count");

@@ -167,24 +167,23 @@ $userPhoto = ($photo ? image($photo, 300, 300) : url("/shared/images/avatar.jpg"
                             <li><a class="slide-item" href="<?= url('/admin/funnels/home'); ?>">Funil de Venda</a></li>
                         </ul>
                     </li>
+                    <li class="slide">
+                        <a class="side-menu__item" data-toggle="slide" href="#"><i
+                                    class="side-menu__icon fa fa-list"></i><span
+                                    class="side-menu__label">Relatórios</span><i
+                                    class="angle fa fa-angle-right"></i></a>
+                        <ul class="slide-menu">
+                            <li><a class="slide-item" href="<?= url('/admin/reports/sellers'); ?>">Desempenho Vendedores</a></li>
+                        </ul>
+                        <ul class="slide-menu">
+                            <li><a class="slide-item" href="<?= url('/admin/reports/steps'); ?>">Desempenho Etapas</a></li>
+                        </ul>
+                    </li>
                 <?php endif; ?>
-                <li class="slide">
-                    <a class="side-menu__item" data-toggle="slide" href="#"><i
-                                class="side-menu__icon fa fa-list"></i><span
-                                class="side-menu__label">Relatórios</span><i
-                                class="angle fa fa-angle-right"></i></a>
-                    <ul class="slide-menu">
-                        <li><a class="slide-item" href="<?= url('/admin/reports/sellers'); ?>">Relatórios Por Vendedor</a></li>
-                    </ul>
-                    <ul class="slide-menu">
-                        <li><a class="slide-item" href="<?= url('/admin/reports/regions'); ?>">Relatórios Por Região</a></li>
-                    </ul>
-                    <ul class="slide-menu">
-                        <li><a class="slide-item" href="#<?= url('/admin/reports/clients'); ?>">Relatórios Por Clientes</a></li>
-                    </ul>
-                    <ul class="slide-menu">
-                        <li><a class="slide-item" href="#<?= url('/admin/reports/months'); ?>">Relatórios Por Mês</a></li>
-                    </ul>
+                <li>
+                    <a class="side-menu__item" href="#"><i
+                                class="side-menu__icon fa fa-envelope"></i><span
+                                class="side-menu__label">Mensagens</span></a>
                 </li>
             </ul>
         </aside>

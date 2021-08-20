@@ -2,6 +2,7 @@
 
 namespace Source\App\Admin;
 
+use Source\Core\Connect;
 use Source\Models\Auth;
 use Source\Models\Client;
 use Source\Models\Customers;
@@ -39,44 +40,26 @@ class Dash extends Admin
     {
         $clients = (new Client())->find()->fetch(true);
 
-        foreach ($clients as $client) {
-            if ((new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count()) {
-                $count = (new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count() - 1;
-                $lastNegotiations[] = (new Negotiation())->find("client_id = :cid",
-                    "cid={$client->id}")->fetch(true)[$count];
-            }
-        }
-
-        for ($i = 0; $i < count($lastNegotiations); $i++) {
-            if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
-                $post24hour[] = $lastNegotiations[$i];
-            }
-        }
-
-        if (\user()->level >= 5) {
-            for ($x = 0; $x < count($lastNegotiations); $x++) {
-                if ($lastNegotiations[$x]->status == "Negociação") {
-                    $totalNegotiation[] = $lastNegotiations[$x];
+        if ($clients) {
+            foreach ($clients as $client) {
+                if ((new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count()) {
+                    $count = (new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count() - 1;
+                    $lastNegotiations[] = (new Negotiation())->find("client_id = :cid",
+                        "cid={$client->id}")->fetch(true)[$count];
                 }
             }
-        } else {
-            for ($x = 0; $x < count($lastNegotiations); $x++) {
-                if ($lastNegotiations[$x]->status == "Negociação" && $lastNegotiations[$x]->seller_id == \user()->seller_id) {
-                    $totalNegotiation[] = $lastNegotiations[$x];
-                }
-            }
-        }
 
-        if (\user()->level >= 5) {
             for ($i = 0; $i < count($lastNegotiations); $i++) {
-                if (date_diff_panel($lastNegotiations[$i]->next_contact) <= -3) {
-                    $totalInDelay[] = $lastNegotiations[$i];
+                if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
+                    $post24hour[] = $lastNegotiations[$i];
                 }
             }
-        } else {
+
             for ($i = 0; $i < count($lastNegotiations); $i++) {
-                if (date_diff_panel($lastNegotiations[$i]->next_contact) <= -3 && $lastNegotiations[$x]->seller_id == \user()->seller_id) {
-                    $totalInDelay[] = $lastNegotiations[$i];
+                if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0) {
+                    if ($lastNegotiations[$i]->infoClient()->status != "Concluído" && $lastNegotiations[$i]->infoClient()->reason_loss == "") {
+                        $inNegotiations[] = $lastNegotiations[$i];
+                    }
                 }
             }
         }
@@ -86,6 +69,29 @@ class Dash extends Admin
         $thirdStep = 3;
 
         $seller_id = (\user()->level >= 5) ? "" : \user()->seller_id;
+
+        $test = Connect::getInstance()->query("SELECT C.name as cliente, V.first_name as vendedor,
+
+(SELECT N2.id FROM negotiations as N2 WHERE N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as id_neg,
+
+(SELECT N2.contact_type FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id) as etapa1,
+(SELECT N2.updated_at FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id) as data1,
+(SELECT N2.description FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id) as obs1,
+
+(SELECT N2.contact_type FROM negotiations as N2 WHERE N2.funnel_id = 2 AND N2.client_id = N.client_id) as etapa2,
+(SELECT N2.updated_at FROM negotiations as N2 WHERE N2.funnel_id = 2 AND N2.client_id = N.client_id) as data2,
+(SELECT N2.description FROM negotiations as N2 WHERE N2.funnel_id = 2 AND N2.client_id = N.client_id) as obs2,
+
+(SELECT N2.contact_type FROM negotiations as N2 WHERE N2.funnel_id = 3 AND N2.client_id = N.client_id) as etapa3,
+(SELECT N2.updated_at FROM negotiations as N2 WHERE N2.funnel_id = 3 AND N2.client_id = N.client_id) as data3,
+(SELECT N2.description FROM negotiations as N2 WHERE N2.funnel_id = 3 AND N2.client_id = N.client_id) as obs3
+
+
+FROM negotiations as N INNER JOIN clients as C 
+ON N.client_id = C.id INNER JOIN sellers as V
+ON N.seller_id = V.id
+WHERE 1=1
+GROUP BY N.client_id")->fetchAll();
 
         $head = $this->seo->render(
             CONF_SITE_NAME . " | Dashboard",
@@ -99,13 +105,11 @@ class Dash extends Admin
             "app" => "dash",
             "head" => $head,
             "post24hour" => ($post24hour) ? count($post24hour) : "0",
-            "clientFirstStep" => (\user()->level >= 5) ? (new Client())->find("funnel_id = :fid","fid={$firstStep}")->count() : (new Client())->find("seller_id = :sid AND funnel_id = :fid", "sid={$seller_id}&fid={$firstStep}")->count(),
-            "clientSecondStep" => (\user()->level >= 5) ? (new Client())->find("funnel_id = :fid","fid={$secondStep}")->count() : (new Client())->find("seller_id = :sid AND funnel_id = :fid", "sid={$seller_id}&fid={$secondStep}")->count(),
-            "clientThirdStep" => (\user()->level >= 5) ? (new Client())->find("funnel_id = :fid","fid={$thirdStep}")->count() : (new Client())->find("seller_id = :sid AND funnel_id = :fid", "sid={$seller_id}&fid={$thirdStep}")->count(),
-            "totalClients" => (\user()->level >= 5) ? (new Client())->find()->count() : (new Client())->find("seller_id = :sid", "sid={$seller_id}")->count(),
-            "totalSellers" => (new Seller())->find()->count(),
-            "totalInNegotiations" => ($totalNegotiation) ? count($totalNegotiation) : "0",
-            "totalInDelay" => ($totalInDelay) ? count($totalInDelay) : "0"
+            "completedOrders" => (new Client())->find("status = 'Concluído'")->count(),
+            "waiting" => (new Negotiation())->find("contact_type = 'APagamento' OR contact_type = 'NRespondeu'")->count(),
+            "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : "0",
+            "allNegotiations" => $test,
+            "negotiation" => (new Negotiation())
         ]);
     }
 

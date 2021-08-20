@@ -38,4 +38,9 @@ class Negotiation extends Model
     {
         return (new Client())->findById($this->client_id);
     }
+
+    public function getClientIDNeg($id_neg)
+    {
+        return $this->findById($id_neg);
+    }
 }
