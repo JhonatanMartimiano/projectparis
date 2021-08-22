@@ -36,7 +36,8 @@ class Negotiations extends Admin
         echo $this->view->render("widgets/negotiations/home", [
             "app" => "negotiations/home",
             "head" => $head,
-            "funnels" => (new Funnel())->find()->fetch(true)
+            "funnels" => (new Funnel())->find()->fetch(true),
+            "clients" => (new Client())
         ]);
     }
 

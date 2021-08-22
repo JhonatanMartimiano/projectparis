@@ -21,8 +21,7 @@ class Negotiation extends Model
             "branch",
             "contact_type",
             "next_contact",
-            "funnel_id",
-            "description"
+            "funnel_id"
         ]);
     }
 

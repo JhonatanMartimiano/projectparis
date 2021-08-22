@@ -83,7 +83,7 @@ class Clients extends Admin
             $clientCreate->state = $data["state"];
             $clientCreate->phone = preg_replace("/[^0-9]/", "", $data["phone"]);
             $clientCreate->seller_id = $data["seller_id"];
-            $clientCreate->funnel_id = $data["funnel_id"];
+//            $clientCreate->funnel_id = $data["funnel_id"];
             $clientCreate->registration_date = date_fmt_back($data["registration_date"]);
             $clientCreate->reason_loss = "";
             $clientCreate->status = "Negociação";

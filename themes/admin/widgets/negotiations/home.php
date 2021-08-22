@@ -20,6 +20,31 @@
                     </div>
                     <div class="card-body overflow-auto">
                         <div class="d-flex">
+                            <div class="card-style">
+                                <div class="card">
+                                    <div class="card-header bg-info">
+                                        <h2 class="text-center text-white mb-0 mx-auto">Novos Clientes</h2>
+                                    </div>
+                                    <div class="card-body overflow-auto">
+                                        <?php if ($clients->funnelNewClients()): ?>
+                                        <?php foreach ($clients->funnelNewClients() as $newClient): ?>
+                                                <a href="<?= url('/admin/negotiations/negotiation/'); ?>"
+                                                   class="p-1">
+                                                    <div class="border rounded">
+                                                        <p class="m-0">Cliente: <?= $newClient->name; ?></p>
+                                                        <p class="m-0">
+                                                            Vendedor: <?= $newClient->sellerName(); ?></p>
+                                                        <p class="m-0">Data do
+                                                            Cadastro: <?= date_fmt($newClient->registration_date, "d/m/Y"); ?></p>
+                                                        <p class="m-0">Data do Próximo
+                                                            Contato: <?= date('d/m/Y', strtotime('+1 days', strtotime($newClient->registration_date))) ?></p>
+                                                    </div>
+                                                </a>
+                                        <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
                             <?php if ($funnels): ?>
                                 <?php foreach ($funnels as $funnel): ?>
                                     <div class="card-style">

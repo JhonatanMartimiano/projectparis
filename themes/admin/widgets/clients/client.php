@@ -56,7 +56,7 @@
                                             </div>
                                         </div>
                                     <?php endif; ?>
-                                    <?php if ($funnels): ?>
+                                    <?php /* <?php if ($funnels): ?>
                                         <div class="col-12 col-sm-6">
                                             <div class="form-group">
                                                 <label>Etapa</label>
@@ -67,7 +67,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                    <?php endif; ?>
+                                    <?php endif; ?> */ ?>
                                     <div class="form-group col-md-6">
                                         <label>Data do Cadastro</label>
                                         <input type="text" class="form-control mask-date" name="registration_date"
@@ -140,7 +140,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-12 col-sm-6">
+                                    <?php /* <div class="col-12 col-sm-6">
                                         <div class="form-group">
                                             <label>Etapa</label>
                                             <select class="form-control" name="funnel_id" required>
@@ -149,7 +149,7 @@
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> */ ?>
                                     <div class="form-group col-md-6">
                                         <label>Data do Cadastro</label>
                                         <input type="text" class="form-control mask-date" name="registration_date"
