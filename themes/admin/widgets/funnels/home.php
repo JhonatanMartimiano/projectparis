@@ -42,26 +42,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($funnels as $funnel): ?>
-                                    <tr>
-                                        <th scope="row"><?= $funnel->id; ?></th>
-                                        <td><?= $funnel->title; ?></td>
-                                        <td><?= $funnel->description; ?></td>
-                                        <td><?= $funnel->sequence; ?></td>
-                                        <td align="center">
-                                            <a href="<?= url('/admin/funnels/funnel/'.$funnel->id); ?>"
-                                                class="btn btn-info btn-sm" title="Editar"><i
-                                                    class="fa fa-pencil"></i></a>
+                                    <?php if ($funnels): ?>
+                                        <?php foreach ($funnels as $funnel): ?>
+                                            <tr>
+                                                <th scope="row"><?= $funnel->id; ?></th>
+                                                <td><?= $funnel->title; ?></td>
+                                                <td><?= $funnel->description; ?></td>
+                                                <td><?= $funnel->sequence; ?></td>
+                                                <td align="center">
+                                                    <a href="<?= url('/admin/funnels/funnel/'.$funnel->id); ?>"
+                                                       class="btn btn-info btn-sm" title="Editar"><i
+                                                                class="fa fa-pencil"></i></a>
 
-                                            <a href="#" class="btn btn-danger btn-sm"
-                                                data-post="<?= url("/admin/funnels/funnel/{$funnel->id}"); ?>"
-                                                data-action="delete"
-                                                data-confirm="ATENÇÃO: Tem certeza que deseja excluir o funil e todos os dados relacionados a ele? Essa ação não pode ser feita!"
-                                                data-funnel_id="<?= $funnel->id; ?>" title="Excluir"><i
-                                                    class="fa fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <?php endforeach; ?>
+                                                    <a href="#" class="btn btn-danger btn-sm"
+                                                       data-post="<?= url("/admin/funnels/funnel/{$funnel->id}"); ?>"
+                                                       data-action="delete"
+                                                       data-confirm="ATENÇÃO: Tem certeza que deseja excluir o funil e todos os dados relacionados a ele? Essa ação não pode ser feita!"
+                                                       data-funnel_id="<?= $funnel->id; ?>" title="Excluir"><i
+                                                                class="fa fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>

@@ -50,22 +50,52 @@ class Dash extends Admin
                 }
             }
 
-            for ($i = 0; $i < count($lastNegotiations); $i++) {
-                if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
-                    $post24hour[] = $lastNegotiations[$i];
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
+                        $post24hour[] = $lastNegotiations[$i];
+                    }
                 }
             }
 
-            for ($i = 0; $i < count($lastNegotiations); $i++) {
-                if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0) {
-                    if ($lastNegotiations[$i]->infoClient()->status != "Concluído" && $lastNegotiations[$i]->infoClient()->reason_loss == "") {
-                        $inNegotiations[] = $lastNegotiations[$i];
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if ($lastNegotiations[$i]->contact_type == "PFinalizado") {
+                        $completedOrders[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0 && $lastNegotiations[$i]->contact_type == 'APagamento' || $lastNegotiations[$i]->contact_type == 'Orçamento' || $lastNegotiations[$i]->contact_type == 'Cotação') {
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
+                            $waiting[] = $lastNegotiations[$i];
+                        }
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0 && $lastNegotiations[$i]->contact_type != 'APagamento' && $lastNegotiations[$i]->contact_type != 'NRespondeu' && $lastNegotiations[$i]->contact_type != 'Orçamento' && $lastNegotiations[$i]->contact_type != 'Cotação') {
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
+                            $inNegotiations[] = $lastNegotiations[$i];
+                        }
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if ($lastNegotiations[$i]->reason_loss != "") {
+                        $loss[] = $lastNegotiations[$i];
                     }
                 }
             }
         }
 
-        $test = Connect::getInstance()->query("SELECT C.name as cliente, V.first_name as vendedor,
+        $query = Connect::getInstance()->query("SELECT C.name as cliente, V.first_name as vendedor,
 
 (SELECT N2.id FROM negotiations as N2 WHERE N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as id_neg,
 
@@ -73,8 +103,6 @@ class Dash extends Admin
 
 (SELECT N2.updated_at FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data1,
 (SELECT N2.next_contact FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data11,
-
-
 
 (SELECT N2.description FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as obs1,
 
@@ -88,7 +116,7 @@ class Dash extends Admin
 (SELECT N2.contact_type FROM negotiations as N2 WHERE N2.funnel_id = 3 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as etapa3,
 (SELECT N2.next_contact FROM negotiations as N2 WHERE N2.funnel_id = 3 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data33,
 
-(SELECT N2.updated_at FROM negotiations as N2 WHERE N2.funnel_id = 3 AND N2.client_id = N.client_id) as data3,
+(SELECT N2.updated_at FROM negotiations as N2 WHERE N2.funnel_id = 3 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data3,
 
 (SELECT N2.description FROM negotiations as N2 WHERE N2.client_id = N.client_id ORDER BY N2.id DESC  LIMIT 1) as obs
 
@@ -112,12 +140,13 @@ GROUP BY N.client_id")->fetchAll();
             "app" => "dash",
             "head" => $head,
             "post24hour" => ($post24hour) ? count($post24hour) : 0 + (new Client())->find("registration_date - CURDATE() < -1")->count(),
-            "completedOrders" => (\user()->level >= 5) ? (new Client())->find("status = 'Concluído'")->count() : (new Client())->find("seller_id = :sid AND status = 'Concluído'", "sid={$seller_id}")->count(),
-            "waiting" => (\user()->level >= 5) ? (new Negotiation())->find("contact_type = 'APagamento' OR contact_type = 'NRespondeu'")->count() : (new Negotiation())->find("seller_id = :sid AND contact_type = 'APagamento' OR contact_type = 'NRespondeu'", "sid={$seller_id}")->count(),
-            "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : "0",
-            "allNegotiations" => $test,
+            "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
+            "waiting" => ($waiting) ? count($waiting) : 0,
+            "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
+            "loss" => ($loss) ? count($loss) : 0,
+            "allNegotiations" => $query,
             "negotiation" => (new Negotiation()),
-            "newClients" => (new Client())->find("seller_id = :sid AND funnel_id = 1", "sid={$seller_id}")->fetch(true)
+            "newClients" => (new Client())->find("seller_id = :sid AND funnel_id IS NULL", "sid={$seller_id}")->fetch(true)
         ]);
     }
 

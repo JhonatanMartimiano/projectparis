@@ -22,13 +22,13 @@
                         <div class="d-flex">
                             <div class="card-style">
                                 <div class="card">
-                                    <div class="card-header bg-info">
+                                    <div class="card-header" style="background-color: #000">
                                         <h2 class="text-center text-white mb-0 mx-auto">Novos Clientes</h2>
                                     </div>
                                     <div class="card-body overflow-auto">
                                         <?php if ($clients->funnelNewClients()): ?>
-                                        <?php foreach ($clients->funnelNewClients() as $newClient): ?>
-                                                <a href="<?= url('/admin/negotiations/negotiation/'); ?>"
+                                            <?php foreach ($clients->funnelNewClients() as $newClient): ?>
+                                                <a href="<?= url('/admin/negotiations/negotiation/' . $newClient->id); ?>"
                                                    class="p-1">
                                                     <div class="border rounded">
                                                         <p class="m-0">Cliente: <?= $newClient->name; ?></p>
@@ -40,7 +40,7 @@
                                                             Contato: <?= date('d/m/Y', strtotime('+1 days', strtotime($newClient->registration_date))) ?></p>
                                                     </div>
                                                 </a>
-                                        <?php endforeach; ?>
+                                            <?php endforeach; ?>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -49,7 +49,7 @@
                                 <?php foreach ($funnels as $funnel): ?>
                                     <div class="card-style">
                                         <div class="card">
-                                            <div class="card-header bg-info">
+                                            <div class="card-header" style="background-color: #000">
                                                 <h2 class="text-center text-white mb-0 mx-auto"><?= $funnel->title; ?></h2>
                                             </div>
                                             <div class="card-body overflow-auto">
@@ -57,17 +57,67 @@
                                                     <?php foreach ($funnel->funnelClients() as $client): ?>
                                                         <a href="<?= url('/admin/negotiations/negotiation/' . $client->id); ?>"
                                                            class="p-1">
-                                                            <div class="border <?= ($client->lastNegotiationInfo()->next_contact) ? date_fmt_color($client->lastNegotiationInfo()->next_contact) : date_fmt_color($client->registration_date); ?> rounded">
-                                                                <p class="m-0">Cliente: <?= $client->name; ?></p>
-                                                                <p class="m-0">
-                                                                    Vendedor: <?= $client->sellerName(); ?></p>
-                                                                <p class="m-0">Data do
-                                                                    Cadastro: <?= date_fmt($client->registration_date,
-                                                                        "d/m/Y"); ?></p>
-                                                                <p class="m-0">Data do Próximo
-                                                                    Contato: <?= ($client->lastNegotiationInfo()->next_contact) ? date_fmt($client->lastNegotiationInfo()->next_contact,
-                                                                        "d/m/Y") : "Não informado."; ?></p>
-                                                            </div>
+                                                            <?php if ($client->lastNegotiationInfo()->next_contact < 1): ?>
+                                                                <div class="border rounded text-white bg-danger">
+                                                                    <p class="m-0">Cliente: <?= $client->name; ?></p>
+                                                                    <p class="m-0">
+                                                                        Vendedor: <?= $client->sellerName(); ?></p>
+                                                                    <p class="m-0">Data do
+                                                                        Cadastro: <?= date_fmt($client->registration_date,
+                                                                            "d/m/Y"); ?></p>
+                                                                    <p class="m-0">Data do Próximo
+                                                                        Contato: <?= ($client->lastNegotiationInfo()->next_contact) ? date_fmt($client->lastNegotiationInfo()->next_contact,
+                                                                            "d/m/Y") : "Não informado."; ?></p>
+                                                                </div>
+                                                            <?php elseif ($client->lastNegotiationInfo()->reason_loss != ""): ?>
+                                                                <div class="border rounded text-white bg-purple">
+                                                                    <p class="m-0">Cliente: <?= $client->name; ?></p>
+                                                                    <p class="m-0">
+                                                                        Vendedor: <?= $client->sellerName(); ?></p>
+                                                                    <p class="m-0">Data do
+                                                                        Cadastro: <?= date_fmt($client->registration_date,
+                                                                            "d/m/Y"); ?></p>
+                                                                    <p class="m-0">Data do Próximo
+                                                                        Contato: <?= ($client->lastNegotiationInfo()->next_contact) ? date_fmt($client->lastNegotiationInfo()->next_contact,
+                                                                            "d/m/Y") : "Não informado."; ?></p>
+                                                                </div>
+                                                            <?php elseif ($client->lastNegotiationInfo()->contact_type == "PFinalizado"): ?>
+                                                                <div class="border rounded text-white bg-success">
+                                                                    <p class="m-0">Cliente: <?= $client->name; ?></p>
+                                                                    <p class="m-0">
+                                                                        Vendedor: <?= $client->sellerName(); ?></p>
+                                                                    <p class="m-0">Data do
+                                                                        Cadastro: <?= date_fmt($client->registration_date,
+                                                                            "d/m/Y"); ?></p>
+                                                                    <p class="m-0">Data do Próximo
+                                                                        Contato: <?= ($client->lastNegotiationInfo()->next_contact) ? date_fmt($client->lastNegotiationInfo()->next_contact,
+                                                                            "d/m/Y") : "Não informado."; ?></p>
+                                                                </div>
+                                                            <?php elseif ($client->lastNegotiationInfo()->contact_type == "APagamento" || $client->lastNegotiationInfo()->contact_type == "Orçamento" || $client->lastNegotiationInfo()->contact_type == "Cotação"): ?>
+                                                                <div class="border rounded text-white bg-warning">
+                                                                    <p class="m-0">Cliente: <?= $client->name; ?></p>
+                                                                    <p class="m-0">
+                                                                        Vendedor: <?= $client->sellerName(); ?></p>
+                                                                    <p class="m-0">Data do
+                                                                        Cadastro: <?= date_fmt($client->registration_date,
+                                                                            "d/m/Y"); ?></p>
+                                                                    <p class="m-0">Data do Próximo
+                                                                        Contato: <?= ($client->lastNegotiationInfo()->next_contact) ? date_fmt($client->lastNegotiationInfo()->next_contact,
+                                                                            "d/m/Y") : "Não informado."; ?></p>
+                                                                </div>
+                                                            <?php else: ?>
+                                                                <div class="border rounded text-white bg-info">
+                                                                    <p class="m-0">Cliente: <?= $client->name; ?></p>
+                                                                    <p class="m-0">
+                                                                        Vendedor: <?= $client->sellerName(); ?></p>
+                                                                    <p class="m-0">Data do
+                                                                        Cadastro: <?= date_fmt($client->registration_date,
+                                                                            "d/m/Y"); ?></p>
+                                                                    <p class="m-0">Data do Próximo
+                                                                        Contato: <?= ($client->lastNegotiationInfo()->next_contact) ? date_fmt($client->lastNegotiationInfo()->next_contact,
+                                                                            "d/m/Y") : "Não informado."; ?></p>
+                                                                </div>
+                                                            <?php endif; ?>
                                                         </a>
                                                     <?php endforeach; ?>
                                                 <?php endif; ?>

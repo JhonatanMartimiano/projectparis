@@ -42,26 +42,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($sellers as $seller): ?>
-                                    <tr>
-                                        <th scope="row"><?= $seller->id; ?></th>
-                                        <td><?= $seller->fullName(); ?></td>
-                                        <td><?= $seller->email; ?></td>
-                                        <td class="mask-doc"><?= $seller->cpf; ?></td>
-                                        <td align="center">
-                                            <a href="<?= url('/admin/sellers/seller/'.$seller->id); ?>"
-                                                class="btn btn-info btn-sm" title="Editar"><i
-                                                    class="fa fa-pencil"></i></a>
+                                    <?php if ($sellers): ?>
+                                        <?php foreach ($sellers as $seller): ?>
+                                            <tr>
+                                                <th scope="row"><?= $seller->id; ?></th>
+                                                <td><?= $seller->fullName(); ?></td>
+                                                <td><?= $seller->email; ?></td>
+                                                <td class="mask-doc"><?= $seller->cpf; ?></td>
+                                                <td align="center">
+                                                    <a href="<?= url('/admin/sellers/seller/'.$seller->id); ?>"
+                                                       class="btn btn-info btn-sm" title="Editar"><i
+                                                                class="fa fa-pencil"></i></a>
 
-                                            <a href="#" class="btn btn-danger btn-sm"
-                                                data-post="<?= url("/admin/sellers/seller/{$seller->id}"); ?>"
-                                                data-action="delete"
-                                                data-confirm="ATENÇÃO: Tem certeza que deseja excluir o vendedor e todos os dados relacionados a ele? Essa ação não pode ser feita!"
-                                                data-seller_id="<?= $seller->id; ?>" title="Excluir"><i
-                                                    class="fa fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                    <?php endforeach; ?>
+                                                    <a href="#" class="btn btn-danger btn-sm"
+                                                       data-post="<?= url("/admin/sellers/seller/{$seller->id}"); ?>"
+                                                       data-action="delete"
+                                                       data-confirm="ATENÇÃO: Tem certeza que deseja excluir o vendedor e todos os dados relacionados a ele? Essa ação não pode ser feita!"
+                                                       data-seller_id="<?= $seller->id; ?>" title="Excluir"><i
+                                                                class="fa fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>

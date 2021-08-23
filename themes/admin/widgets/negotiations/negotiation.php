@@ -121,9 +121,6 @@
                                             <option value="PFinalizado" <?= ("PFinalizado" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>
                                                 Pedido Finalizado
                                             </option>
-                                            <option value="NRespondeu" <?= ("NRespondeu" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>
-                                                Não Respondeu
-                                            </option>
                                             <option value="Marketing" <?= ("Marketing" == $client->lastNegotiationInfo()->contact_type) ? "selected" : ""; ?>>
                                                 Marketing
                                             </option>
@@ -156,6 +153,9 @@
                                             </option>
                                             <option value="Frete" <?= ("Frete" == $client->lastNegotiationInfo()->reason_loss) ? "selected" : ""; ?>>
                                                 Frete
+                                            </option>
+                                            <option value="NRespondeu" <?= ("NRespondeu" == $client->lastNegotiationInfo()->reason_loss) ? "selected" : ""; ?>>
+                                                Não Respondeu
                                             </option>
                                         </select>
                                     </div>
