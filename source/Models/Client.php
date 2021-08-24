@@ -53,4 +53,14 @@ class Client extends Model
             return $find->fetch(true);
         }
     }
+
+    public function cityName()
+    {
+        return (new AppCity())->findById($this->city)->name;
+    }
+
+    public function stateName()
+    {
+        return (new AppState())->findById($this->state)->name;
+    }
 }

@@ -254,6 +254,7 @@ $userPhoto = ($photo ? image($photo, 300, 300) : url("/shared/images/avatar.jpg"
 <script src="<?= url('/shared/scripts/jquery.mask.js'); ?>"></script>
 <script src="<?= url('/shared/scripts/mask.js'); ?>"></script>
 <script src="<?= url('/shared/scripts/Ajax.js'); ?>"></script>
+<script src="<?= theme('/assets/js/stateCity.js', CONF_VIEW_ADMIN); ?>"></script>
 <?= $v->section("scripts"); ?>
 </body>
 

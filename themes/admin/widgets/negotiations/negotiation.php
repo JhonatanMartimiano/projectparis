@@ -174,22 +174,22 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Data</label>
-                                        <input type="text" name="next_contact"
-                                               value="<?= ($client->lastNegotiationInfo()->next_contact) ? date_fmt($client->lastNegotiationInfo()->next_contact, "d/m/Y") : ''; ?>"
-                                               class="form-control mask-date">
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Contato</label>
+                                        <label><b style="color: #ff382b;">Contato Atual</b></label>
                                         <select class="form-control" name="funnel_id" required>
                                             <?php foreach ($funnels as $funnel): ?>
                                                 <option value="<?= $funnel->id; ?>" <?= ($funnel->id == $funnelSelected) ? "selected" : ""; ?>><?= $funnel->title; ?></option>
                                             <?php endforeach; ?>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label><b>Data Próximo Contato</b></label>
+                                        <input type="text" name="next_contact"
+                                               value="<?= ($client->lastNegotiationInfo()->next_contact) ? date_fmt($client->lastNegotiationInfo()->next_contact, "d/m/Y") : ''; ?>"
+                                               class="form-control mask-date">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12">

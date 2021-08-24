@@ -30,14 +30,17 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>Cidade</label>
-                                        <input type="text" class="form-control" name="city"
-                                               placeholder="Digite sua cidade">
+                                        <label>Estado</label>
+                                        <select class="form-control selectState" data-url="<?= url('/admin/clients/address'); ?>" name="state" required>
+                                            <option value="">Selecione o estado</option>
+                                            <?php foreach ($states as $state): ?>
+                                                <option value="<?= $state->id; ?>"><?= $state->name; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>Estado</label>
-                                        <input type="text" class="form-control" name="state"
-                                               placeholder="Digite seu estado">
+                                        <label>Cidade</label>
+                                        <select name="city" class="form-control selectCity"></select>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Telefone</label>
@@ -113,16 +116,19 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>Cidade</label>
-                                        <input type="text" class="form-control" name="city"
-                                               value="<?= $client->city; ?>"
-                                               placeholder="Digite sua cidade">
+                                        <label>Estado</label>
+                                        <select class="form-control selectState" data-url="<?= url('/admin/clients/address'); ?>" name="state" required>
+                                            <option value="">Selecione o estado</option>
+                                            <?php foreach ($states as $state): ?>
+                                                <option value="<?= $state->id; ?>" <?= ($state->id == $client->state) ? "selected" : ""; ?> ><?= $state->name; ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label>Estado</label>
-                                        <input type="text" class="form-control" name="state"
-                                               value="<?= $client->state; ?>"
-                                               placeholder="Digite seu estado">
+                                        <label>Cidade</label>
+                                        <select name="city" class="form-control selectCity">
+                                            <option value="<?= $client->city; ?>"><?= $client->cityName(); ?></option>
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label>Telefone</label>

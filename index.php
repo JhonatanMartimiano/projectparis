@@ -70,6 +70,8 @@ $route->get("/clients/client", "Clients:client");
 $route->post("/clients/client", "Clients:client");
 $route->get("/clients/client/{client_id}", "Clients:client");
 $route->post("/clients/client/{client_id}", "Clients:client");
+//states and cities
+$route->post("/clients/address/{state_id}", "Clients:address");
 
 //general premises
 $route->get("/funnels/home", "Funnels:home");

@@ -2,6 +2,8 @@
 
 namespace Source\App\Admin;
 
+use Source\Models\AppCity;
+use Source\Models\AppState;
 use Source\Models\Client;
 use Source\Models\Funnel;
 use Source\Models\Seller;
@@ -175,8 +177,22 @@ class Clients extends Admin
             "client" => $clientEdit,
             "sellers" => (new Seller())->find()->fetch(true),
             "funnels" => (new Funnel())->find()->fetch(true),
+            "states" => (new AppState())->find()->fetch(true),
             "sellerSelected" => $clientEdit->seller_id,
             "funnelSelected" => $clientEdit->funnel_id
         ]);
+    }
+
+    public function address(array $data): void
+    {
+        if (!empty($data["state_id"])) {
+            $state_id = filter_var($data["state_id"], FILTER_VALIDATE_INT);
+            $cities = (new AppCity())->find("state_id = :stid", "stid={$state_id}")->fetch(true);
+            foreach ($cities as $city) {
+                $result[] = $city->data();
+            }
+            $json["cities"] = $result;
+            echo json_encode($json);
+        }
     }
 }

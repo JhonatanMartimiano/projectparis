@@ -49,8 +49,8 @@
                                             <tr>
                                                 <th scope="row"><?= $client->id; ?></th>
                                                 <td><?= $client->name; ?></td>
-                                                <td><?= $client->city; ?></td>
-                                                <td><?= $client->state; ?></td>
+                                                <td><?= $client->cityName(); ?></td>
+                                                <td><?= $client->stateName(); ?></td>
                                                 <td><?= $client->sellerName(); ?></td>
                                                 <td><?= date_fmt($client->registration_date, "d/m/Y"); ?></td>
                                                 <td align="center">

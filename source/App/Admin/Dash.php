@@ -5,10 +5,7 @@ namespace Source\App\Admin;
 use Source\Core\Connect;
 use Source\Models\Auth;
 use Source\Models\Client;
-use Source\Models\Customers;
 use Source\Models\Negotiation;
-use Source\Models\Seller;
-use Source\Models\User;
 
 /**
  * Class Dash
@@ -146,7 +143,7 @@ GROUP BY N.client_id")->fetchAll();
             "loss" => ($loss) ? count($loss) : 0,
             "allNegotiations" => $query,
             "negotiation" => (new Negotiation()),
-            "newClients" => (new Client())->find("seller_id = :sid AND funnel_id IS NULL", "sid={$seller_id}")->fetch(true)
+            "newClients" => (\user()->level >= 5) ? (new Client())->find("funnel_id IS NULL")->fetch(true) : (new Client())->find("seller_id = :sid AND funnel_id IS NULL", "sid={$seller_id}")->fetch(true)
         ]);
     }
 

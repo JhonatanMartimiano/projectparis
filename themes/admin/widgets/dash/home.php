@@ -10,7 +10,7 @@
                 </ol>
             </div>
             <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-3">
+                <div class="col-20per">
                     <div class="card overflow-hidden bg-danger">
                         <div class="card-body iconfont text-center">
                             <h5 class="text-white">Atrasados 24H+</h5>
@@ -20,17 +20,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-3">
+                <div class="col-20per">
                     <div class="card overflow-hidden bg-success">
                         <div class="card-body iconfont text-center">
-                            <h5 class="text-white">Pedidos Finalizados</h5>
+                            <h5 class="text-white">Finalizados</h5>
                             <div class="d-flex justify-content-center">
                                 <h5 class="mb-0 text-white mt-1"><?= $completedOrders; ?></h5>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-3">
+                <div class="col-20per">
                     <div class="card overflow-hidden bg-warning">
                         <div class="card-body iconfont text-center">
                             <h5 class="text-white">Aguardando</h5>
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-3">
+                <div class="col-20per">
                     <div class="card overflow-hidden bg-info">
                         <div class="card-body iconfont text-center">
                             <h5 class="text-white">Em Negociação</h5>
@@ -50,7 +50,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-12 col-md-6 col-lg-3">
+                <div class="col-20per">
                     <div class="card overflow-hidden bg-purple">
                         <div class="card-body iconfont text-center">
                             <h5 class="text-white">Perdidos</h5>
@@ -120,7 +120,7 @@
             <!--            </div>-->
             <!-- /Revenue Chart -->
 
-            <?php if (user()->seller_id != ""): ?>
+            <?php if (user()->level >= 5): ?>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card m-b-20">
@@ -147,8 +147,49 @@
                                                             <a class="<?= (date_diff_panel($newClient->registration_date) < -1) ? 'text-white' : ''; ?>"
                                                                href="<?= url('/admin/negotiations/negotiation/' . $newClient->id) ?>"><?= $newClient->name; ?></a>
                                                         </td>
-                                                        <td><?= $newClient->city; ?></td>
-                                                        <td><?= $newClient->state; ?></td>
+                                                        <td><?= $newClient->cityName(); ?></td>
+                                                        <td><?= $newClient->stateName(); ?></td>
+                                                        <td><?= date_fmt($newClient->registration_date, "d/m/Y"); ?></td>
+                                                    </tr>
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card m-b-20">
+                            <div class="card-header">
+                                <h3 class="card-title">Novos Clientes</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered border-top mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th>Nome</th>
+                                            <th>Cidade</th>
+                                            <th>Estado</th>
+                                            <th>Data do Cadastro</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php if ($newClients): ?>
+                                            <?php foreach ($newClients as $newClient): ?>
+                                                <?php if (!$negotiation->find("client_id = :cid", "cid={$newClient->id}")->count()): ?>
+                                                    <tr class="<?= (date_diff_panel($newClient->registration_date) < -1) ? 'bg-danger text-white' : ''; ?>">
+                                                        <td>
+                                                            <a class="<?= (date_diff_panel($newClient->registration_date) < -1) ? 'text-white' : ''; ?>"
+                                                               href="<?= url('/admin/negotiations/negotiation/' . $newClient->id) ?>"><?= $newClient->name; ?></a>
+                                                        </td>
+                                                        <td><?= $newClient->cityName(); ?></td>
+                                                        <td><?= $newClient->stateName(); ?></td>
                                                         <td><?= date_fmt($newClient->registration_date, "d/m/Y"); ?></td>
                                                     </tr>
                                                 <?php endif; ?>
@@ -173,21 +214,21 @@
                                     <tr align="center">
                                         <th>Cliente</th>
                                         <th>Vendedor</th>
-                                        <th colspan="2">
+                                        <th colspan="2" style="background-color: #DDDDDD">
                                             1° Contato
                                             <div class="d-flex justify-content-between">
                                                 <p>Etapa</p>
                                                 <p>Data</p>
                                             </div>
                                         </th>
-                                        <th colspan="2">
+                                        <th colspan="2" style="background-color: #CECECE">
                                             2° Contato
                                             <div class="d-flex justify-content-between">
                                                 <p>Etapa</p>
                                                 <p>Data</p>
                                             </div>
                                         </th>
-                                        <th colspan="2">
+                                        <th colspan="2" style="background-color: #B2B2B2">
                                             3° Contato
                                             <div class="d-flex justify-content-between">
                                                 <p>Etapa</p>
@@ -215,11 +256,11 @@
                                                         <td><?= $allNegotiation->etapa1; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data1) ? date_fmt($allNegotiation->data1, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data11) ? date_fmt($allNegotiation->data11, "d/m/Y") : ""; ?></p>
@@ -232,11 +273,11 @@
                                                         <td><?= $allNegotiation->etapa2; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data2) ? date_fmt($allNegotiation->data2, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data22) ? date_fmt($allNegotiation->data22, "d/m/Y") : ""; ?></p>
@@ -249,11 +290,11 @@
                                                         <td><?= $allNegotiation->etapa3; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data3) ? date_fmt($allNegotiation->data3, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data33) ? date_fmt($allNegotiation->data33, "d/m/Y") : ""; ?></p>
@@ -275,11 +316,11 @@
                                                         <td><?= $allNegotiation->etapa1; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data1) ? date_fmt($allNegotiation->data1, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data11) ? date_fmt($allNegotiation->data11, "d/m/Y") : ""; ?></p>
@@ -292,11 +333,11 @@
                                                         <td><?= $allNegotiation->etapa2; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data2) ? date_fmt($allNegotiation->data2, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data22) ? date_fmt($allNegotiation->data22, "d/m/Y") : ""; ?></p>
@@ -309,11 +350,11 @@
                                                         <td><?= $allNegotiation->etapa3; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data3) ? date_fmt($allNegotiation->data3, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data33) ? date_fmt($allNegotiation->data33, "d/m/Y") : ""; ?></p>
@@ -335,11 +376,11 @@
                                                         <td><?= $allNegotiation->etapa1; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data1) ? date_fmt($allNegotiation->data1, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data11) ? date_fmt($allNegotiation->data11, "d/m/Y") : ""; ?></p>
@@ -352,11 +393,11 @@
                                                         <td><?= $allNegotiation->etapa2; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data2) ? date_fmt($allNegotiation->data2, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data22) ? date_fmt($allNegotiation->data22, "d/m/Y") : ""; ?></p>
@@ -369,11 +410,11 @@
                                                         <td><?= $allNegotiation->etapa3; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data3) ? date_fmt($allNegotiation->data3, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data33) ? date_fmt($allNegotiation->data33, "d/m/Y") : ""; ?></p>
@@ -395,11 +436,11 @@
                                                         <td><?= $allNegotiation->etapa1; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px; "><?= ($allNegotiation->data1) ? date_fmt($allNegotiation->data1, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px; "><?= ($allNegotiation->data11) ? date_fmt($allNegotiation->data11, "d/m/Y") : ""; ?></p>
@@ -412,11 +453,11 @@
                                                         <td><?= $allNegotiation->etapa2; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data2) ? date_fmt($allNegotiation->data2, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data22) ? date_fmt($allNegotiation->data22, "d/m/Y") : ""; ?></p>
@@ -429,11 +470,11 @@
                                                         <td><?= $allNegotiation->etapa3; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data3) ? date_fmt($allNegotiation->data3, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data33) ? date_fmt($allNegotiation->data33, "d/m/Y") : ""; ?></p>
@@ -455,11 +496,11 @@
                                                         <td><?= $allNegotiation->etapa1; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data1) ? date_fmt($allNegotiation->data1, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data11) ? date_fmt($allNegotiation->data11, "d/m/Y") : ""; ?></p>
@@ -472,11 +513,11 @@
                                                         <td><?= $allNegotiation->etapa2; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data2) ? date_fmt($allNegotiation->data2, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data22) ? date_fmt($allNegotiation->data22, "d/m/Y") : ""; ?></p>
@@ -489,11 +530,11 @@
                                                         <td><?= $allNegotiation->etapa3; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data3) ? date_fmt($allNegotiation->data3, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data33) ? date_fmt($allNegotiation->data33, "d/m/Y") : ""; ?></p>
@@ -517,11 +558,11 @@
                                                         <td><?= $allNegotiation->etapa1; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data1) ? date_fmt($allNegotiation->data1, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data11) ? date_fmt($allNegotiation->data11, "d/m/Y") : ""; ?></p>
@@ -534,11 +575,11 @@
                                                         <td><?= $allNegotiation->etapa2; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data2) ? date_fmt($allNegotiation->data2, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data22) ? date_fmt($allNegotiation->data22, "d/m/Y") : ""; ?></p>
@@ -551,11 +592,11 @@
                                                         <td><?= $allNegotiation->etapa3; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data3) ? date_fmt($allNegotiation->data3, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data33) ? date_fmt($allNegotiation->data33, "d/m/Y") : ""; ?></p>
@@ -577,11 +618,11 @@
                                                         <td><?= $allNegotiation->etapa1; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data1) ? date_fmt($allNegotiation->data1, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data11) ? date_fmt($allNegotiation->data11, "d/m/Y") : ""; ?></p>
@@ -594,11 +635,11 @@
                                                         <td><?= $allNegotiation->etapa2; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data2) ? date_fmt($allNegotiation->data2, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data22) ? date_fmt($allNegotiation->data22, "d/m/Y") : ""; ?></p>
@@ -611,11 +652,11 @@
                                                         <td><?= $allNegotiation->etapa3; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data3) ? date_fmt($allNegotiation->data3, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data33) ? date_fmt($allNegotiation->data33, "d/m/Y") : ""; ?></p>
@@ -637,11 +678,11 @@
                                                         <td><?= $allNegotiation->etapa1; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data1) ? date_fmt($allNegotiation->data1, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data11) ? date_fmt($allNegotiation->data11, "d/m/Y") : ""; ?></p>
@@ -654,11 +695,11 @@
                                                         <td><?= $allNegotiation->etapa2; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data2) ? date_fmt($allNegotiation->data2, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data22) ? date_fmt($allNegotiation->data22, "d/m/Y") : ""; ?></p>
@@ -671,11 +712,11 @@
                                                         <td><?= $allNegotiation->etapa3; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data3) ? date_fmt($allNegotiation->data3, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data33) ? date_fmt($allNegotiation->data33, "d/m/Y") : ""; ?></p>
@@ -697,11 +738,11 @@
                                                         <td><?= $allNegotiation->etapa1; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data1) ? date_fmt($allNegotiation->data1, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data11) ? date_fmt($allNegotiation->data11, "d/m/Y") : ""; ?></p>
@@ -714,11 +755,11 @@
                                                         <td><?= $allNegotiation->etapa2; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data2) ? date_fmt($allNegotiation->data2, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data22) ? date_fmt($allNegotiation->data22, "d/m/Y") : ""; ?></p>
@@ -731,11 +772,11 @@
                                                         <td><?= $allNegotiation->etapa3; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data3) ? date_fmt($allNegotiation->data3, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data33) ? date_fmt($allNegotiation->data33, "d/m/Y") : ""; ?></p>
@@ -757,11 +798,11 @@
                                                         <td><?= $allNegotiation->etapa1; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data1) ? date_fmt($allNegotiation->data1, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data11) ? date_fmt($allNegotiation->data11, "d/m/Y") : ""; ?></p>
@@ -774,11 +815,11 @@
                                                         <td><?= $allNegotiation->etapa2; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data2) ? date_fmt($allNegotiation->data2, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data22) ? date_fmt($allNegotiation->data22, "d/m/Y") : ""; ?></p>
@@ -791,11 +832,11 @@
                                                         <td><?= $allNegotiation->etapa3; ?></td>
                                                     <?php endif; ?>
                                                     <td>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Últ.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Últ.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data3) ? date_fmt($allNegotiation->data3, "d/m/Y") : ""; ?></p>
-                                                        <p class="mt-0" style="font-size: 12px; color: #ccc">Próx.
+                                                        <p class="mt-0" style="font-size: 10px; color: #ccc">Próx.
                                                             Contato</p>
                                                         <p class="mt-0"
                                                            style="font-size: 12px"><?= ($allNegotiation->data33) ? date_fmt($allNegotiation->data33, "d/m/Y") : ""; ?></p>
