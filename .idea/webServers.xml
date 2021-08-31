@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="02d6e210-2c37-4b99-bfcf-da5d9d903da1" name="CLIENT" url="http://ftp.professionalparis.com.br">
+        <fileTransfer host="ftp.professionalparis.com.br" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

@@ -180,10 +180,17 @@ $userPhoto = ($photo ? image($photo, 300, 300) : url("/shared/images/avatar.jpg"
                         </ul>
                     </li>
                 <?php endif; ?>
-                <li>
-                    <a class="side-menu__item" href="#"><i
+                <li class="slide">
+                    <a class="side-menu__item" data-toggle="slide" href="#"><i
                                 class="side-menu__icon fa fa-envelope"></i><span
-                                class="side-menu__label">Mensagens</span></a>
+                                class="side-menu__label">Mensagens</span><i
+                                class="angle fa fa-angle-right"></i></a>
+                    <ul class="slide-menu">
+                        <li><a class="slide-item" href="<?= url('/admin/messages/home'); ?>">Caixa de Entrada</a></li>
+                    </ul>
+                    <ul class="slide-menu">
+                        <li><a class="slide-item" href="<?= url('/admin/messages/sends'); ?>">Enviadas</a></li>
+                    </ul>
                 </li>
             </ul>
         </aside>

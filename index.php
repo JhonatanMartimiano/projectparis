@@ -85,7 +85,7 @@ $route->get("/negotiations/home", "Negotiations:home");
 $route->get("/negotiations/negotiation/{client_id}", "Negotiations:negotiation");
 $route->post("/negotiations/negotiation/{client_id}", "Negotiations:negotiation");
 
-// reports
+//reports
 $route->get("/reports/sellers", "Reports:sellers");
 $route->post("/reports/sellers", "Reports:sellers");
 $route->get("/reports/sellers/{search}/{page}", "Reports:sellers");
@@ -95,9 +95,14 @@ $route->post("/reports/steps", "Reports:steps");
 $route->get("/reports/steps/{search}/{page}", "Reports:steps");
 $route->get("/reports/step/{seller_id}", "Reports:step");
 
-//notification center
-$route->post("/notifications/count", "Notifications:count");
-$route->post("/notifications/list", "Notifications:list");
+//messages
+$route->get("/messages/home", "Messages:home");
+$route->get("/messages/message", "Messages:message");
+$route->post("/messages/message", "Messages:message");
+$route->get("/messages/message/{message_id}", "Messages:message");
+$route->post("/messages/message/{message_id}", "Messages:message");
+$route->get("/messages/sends", "Messages:sends");
+$route->get("/messages/response/{message_id}", "Messages:response");
 
 /**
  * ERROR ROUTES

@@ -65,16 +65,20 @@ class Reports extends Admin
                 }
             }
 
-            for ($i = 0; $i < count($lastNegotiations); $i++) {
-                if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
-                    $post24hour[] = $lastNegotiations[$i];
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
+                        $post24hour[] = $lastNegotiations[$i];
+                    }
                 }
             }
 
-            for ($i = 0; $i < count($lastNegotiations); $i++) {
-                if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0) {
-                    if ($lastNegotiations[$i]->infoClient()->status != "Concluído" && $lastNegotiations[$i]->infoClient()->reason_loss == "") {
-                        $inNegotiations[] = $lastNegotiations[$i];
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0) {
+                        if ($lastNegotiations[$i]->infoClient()->status != "Concluído" && $lastNegotiations[$i]->infoClient()->reason_loss == "") {
+                            $inNegotiations[] = $lastNegotiations[$i];
+                        }
                     }
                 }
             }
@@ -117,16 +121,20 @@ class Reports extends Admin
                 }
             }
 
-            for ($i = 0; $i < count($lastNegotiations); $i++) {
-                if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
-                    $post24hour[] = $lastNegotiations[$i];
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
+                        $post24hour[] = $lastNegotiations[$i];
+                    }
                 }
             }
 
-            for ($i = 0; $i < count($lastNegotiations); $i++) {
-                if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0) {
-                    if ($lastNegotiations[$i]->infoClient()->status != "Concluído" && $lastNegotiations[$i]->infoClient()->reason_loss == "") {
-                        $inNegotiations[] = $lastNegotiations[$i];
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0) {
+                        if ($lastNegotiations[$i]->infoClient()->status != "Concluído" && $lastNegotiations[$i]->infoClient()->reason_loss == "") {
+                            $inNegotiations[] = $lastNegotiations[$i];
+                        }
                     }
                 }
             }
@@ -216,16 +224,20 @@ class Reports extends Admin
                 }
             }
 
-            for ($i = 0; $i < count($lastNegotiations); $i++) {
-                if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
-                    $post24hour[] = $lastNegotiations[$i];
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
+                        $post24hour[] = $lastNegotiations[$i];
+                    }
                 }
             }
 
-            for ($i = 0; $i < count($lastNegotiations); $i++) {
-                if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0) {
-                    if ($lastNegotiations[$i]->infoClient()->status != "Concluído" && $lastNegotiations[$i]->infoClient()->reason_loss == "") {
-                        $inNegotiations[] = $lastNegotiations[$i];
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0) {
+                        if ($lastNegotiations[$i]->infoClient()->status != "Concluído" && $lastNegotiations[$i]->infoClient()->reason_loss == "") {
+                            $inNegotiations[] = $lastNegotiations[$i];
+                        }
                     }
                 }
             }
