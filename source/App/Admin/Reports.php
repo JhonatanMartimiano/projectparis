@@ -3,6 +3,7 @@
 namespace Source\App\Admin;
 
 use Source\Models\Client;
+use Source\Models\Message;
 use Source\Models\Negotiation;
 use Source\Models\Seller;
 use Source\Support\Pager;
@@ -84,6 +85,8 @@ class Reports extends Admin
             }
         }
 
+        $userID = user()->id;
+
         echo $this->view->render("widgets/reports/sellers", [
             "app" => "reports/sellers",
             "head" => $head,
@@ -94,7 +97,8 @@ class Reports extends Admin
             "post24hour" => ($post24hour) ? count($post24hour) : "0",
             "completedOrders" => (new Client())->find("status = 'Concluído'")->count(),
             "waiting" => (new Negotiation())->find("contact_type = 'APagamento' OR contact_type = 'NRespondeu'")->count(),
-            "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : "0"
+            "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : "0",
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 
@@ -140,6 +144,8 @@ class Reports extends Admin
             }
         }
 
+        $userID = user()->id;
+
         echo $this->view->render("widgets/reports/seller", [
             "app" => "reports/sellers",
             "head" => $head,
@@ -147,7 +153,8 @@ class Reports extends Admin
             "post24hour" => ($post24hour) ? count($post24hour) : "0",
             "completedOrders" => (new Client())->find("status = 'Concluído'")->count(),
             "waiting" => (new Negotiation())->find("contact_type = 'APagamento' OR contact_type = 'NRespondeu'")->count(),
-            "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : "0"
+            "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : "0",
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 
@@ -187,6 +194,8 @@ class Reports extends Admin
             false
         );
 
+        $userID = user()->id;
+
         echo $this->view->render("widgets/reports/steps", [
             "app" => "reports/steps",
             "head" => $head,
@@ -197,7 +206,8 @@ class Reports extends Admin
             "presentation" => (new Negotiation())->find("contact_type = 'Apresentação'")->count(),
             "table" => (new Negotiation())->find("contact_type = 'Tabela'")->count(),
             "price" => (new Negotiation())->find("contact_type = 'Cotação'")->count(),
-            "apayment" => (new Negotiation())->find("contact_type = 'APagamento'")->count()
+            "apayment" => (new Negotiation())->find("contact_type = 'APagamento'")->count(),
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 
@@ -243,6 +253,8 @@ class Reports extends Admin
             }
         }
 
+        $userID = user()->id;
+
         echo $this->view->render("widgets/reports/step", [
             "app" => "reports/steps",
             "head" => $head,
@@ -250,7 +262,8 @@ class Reports extends Admin
             "presentation" => (new Negotiation())->find("seller_id = :sid AND contact_type = 'Apresentação'", "sid={$data['seller_id']}")->count(),
             "table" => (new Negotiation())->find("seller_id = :sid AND contact_type = 'Tabela'", "sid={$data['seller_id']}")->count(),
             "price" => (new Negotiation())->find("seller_id = :sid AND contact_type = 'Cotação'", "sid={$data['seller_id']}")->count(),
-            "apayment" => (new Negotiation())->find("seller_id = :sid AND contact_type = 'APagamento'", "sid={$data['seller_id']}")->count()
+            "apayment" => (new Negotiation())->find("seller_id = :sid AND contact_type = 'APagamento'", "sid={$data['seller_id']}")->count(),
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 }

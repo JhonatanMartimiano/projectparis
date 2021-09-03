@@ -5,6 +5,7 @@ namespace Source\App\Admin;
 use Source\Core\Connect;
 use Source\Models\Auth;
 use Source\Models\Client;
+use Source\Models\Message;
 use Source\Models\Negotiation;
 
 /**
@@ -133,17 +134,22 @@ GROUP BY N.client_id")->fetchAll();
             false
         );
 
+        $registrationDate = (user()->level >= 5) ? (new Client())->find("registration_date - CURDATE() < -1")->count() : (new Client())->find("registration_date - CURDATE() < -1 AND seller_id = :sid", "sid={$seller_id}")->count();
+
+        $userID = user()->id;
+
         echo $this->view->render("widgets/dash/home", [
             "app" => "dash",
             "head" => $head,
-            "post24hour" => ($post24hour) ? count($post24hour) : 0 + (new Client())->find("registration_date - CURDATE() < -1")->count(),
+            "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
             "waiting" => ($waiting) ? count($waiting) : 0,
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
             "loss" => ($loss) ? count($loss) : 0,
             "allNegotiations" => $query,
             "negotiation" => (new Negotiation()),
-            "newClients" => (\user()->level >= 5) ? (new Client())->find("funnel_id IS NULL")->fetch(true) : (new Client())->find("seller_id = :sid AND funnel_id IS NULL", "sid={$seller_id}")->fetch(true)
+            "newClients" => (\user()->level >= 5) ? (new Client())->find("funnel_id IS NULL")->fetch(true) : (new Client())->find("seller_id = :sid AND funnel_id IS NULL", "sid={$seller_id}")->fetch(true),
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 

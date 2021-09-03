@@ -6,6 +6,7 @@ use Source\Models\AppCity;
 use Source\Models\AppState;
 use Source\Models\Client;
 use Source\Models\Funnel;
+use Source\Models\Message;
 use Source\Models\Seller;
 use Source\Support\Pager;
 use Source\Support\Thumb;
@@ -60,12 +61,15 @@ class Clients extends Admin
             false
         );
 
+        $userID = user()->id;
+
         echo $this->view->render("widgets/clients/home", [
             "app" => "clients/home",
             "head" => $head,
             "search" => $search,
             "clients" => $clients->limit($pager->limit())->offset($pager->offset())->fetch(true),
-            "paginator" => $pager->render()
+            "paginator" => $pager->render(),
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 
@@ -171,6 +175,8 @@ class Clients extends Admin
             false
         );
 
+        $userID = user()->id;
+
         echo $this->view->render("widgets/clients/client", [
             "app" => "clients/home",
             "head" => $head,
@@ -179,7 +185,8 @@ class Clients extends Admin
             "funnels" => (new Funnel())->find()->fetch(true),
             "states" => (new AppState())->find()->fetch(true),
             "sellerSelected" => $clientEdit->seller_id,
-            "funnelSelected" => $clientEdit->funnel_id
+            "funnelSelected" => $clientEdit->funnel_id,
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 

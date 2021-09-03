@@ -92,6 +92,22 @@ $userPhoto = ($photo ? image($photo, 300, 300) : url("/shared/images/avatar.jpg"
                                 <i class="fe fe-maximize-2" id="fullscreen-button"></i>
                             </a>
                         </div>
+                        <div class="dropdown d-none d-md-flex">
+                            <a class="nav-link icon" data-toggle="dropdown">
+                                <i class="fa fa-envelope-o"></i>
+                                <span class=" nav-unread badge badge-danger  badge-pill"><?= $notification; ?></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                <a href="#" class="dropdown-item d-flex pb-3">
+                                    <div>
+                                        <div class="small text-muted text-center">02/09/2021</div>
+                                        <strong>Jhonatan Martimiano</strong> - Cliente em Atraso.
+                                    </div>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item text-center">Ver todas mensagens</a>
+                            </div>
+                        </div>
                         <div class="dropdown ">
                             <a href="#" class="nav-link pr-0 leading-none user-img" data-toggle="dropdown">
                                 <img src="<?= $userPhoto ?>" alt="profile-img" class="avatar avatar-md brround">
@@ -173,10 +189,12 @@ $userPhoto = ($photo ? image($photo, 300, 300) : url("/shared/images/avatar.jpg"
                                     class="side-menu__label">Relatórios</span><i
                                     class="angle fa fa-angle-right"></i></a>
                         <ul class="slide-menu">
-                            <li><a class="slide-item" href="<?= url('/admin/reports/sellers'); ?>">Desempenho Vendedores</a></li>
+                            <li><a class="slide-item" href="<?= url('/admin/reports/sellers'); ?>">Desempenho
+                                    Vendedores</a></li>
                         </ul>
                         <ul class="slide-menu">
-                            <li><a class="slide-item" href="<?= url('/admin/reports/steps'); ?>">Desempenho Etapas</a></li>
+                            <li><a class="slide-item" href="<?= url('/admin/reports/steps'); ?>">Desempenho Etapas</a>
+                            </li>
                         </ul>
                     </li>
                 <?php endif; ?>

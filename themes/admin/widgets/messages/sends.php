@@ -54,7 +54,7 @@
                                             <td><?= date_fmt($send->created_at, "d/m/Y H:i"); ?></td>
                                             <td align="center">
                                                 <a href="<?= url('/admin/messages/message/'.$send->id); ?>"
-                                                   class="btn btn-info btn-sm" title="Editar"><i
+                                                   class="btn btn-info btn-sm" title="Visualizar"><i
                                                             class="fa fa-eye"></i></a>
                                                 <?php if (user()->level >= 5): ?>
                                                 <a href="#" class="btn btn-danger btn-sm"

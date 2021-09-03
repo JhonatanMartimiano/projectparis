@@ -4,6 +4,7 @@ namespace Source\App\Admin;
 
 use Source\Models\Client;
 use Source\Models\Funnel;
+use Source\Models\Message;
 use Source\Models\Negotiation;
 
 /**
@@ -33,11 +34,14 @@ class Negotiations extends Admin
             false
         );
 
+        $userID = user()->id;
+
         echo $this->view->render("widgets/negotiations/home", [
             "app" => "negotiations/home",
             "head" => $head,
             "funnels" => (new Funnel())->find()->fetch(true),
-            "clients" => (new Client())
+            "clients" => (new Client()),
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 
@@ -92,6 +96,7 @@ class Negotiations extends Admin
             false
         );
 
+        $userID = user()->id;
 
         $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
         $client = (new Client())->findById($data["client_id"]);
@@ -102,7 +107,8 @@ class Negotiations extends Admin
             "client" => $client,
             "funnels" => (new Funnel())->find()->fetch(true),
             "funnelSelected" => $client->funnel_id,
-            "negotiations" => (new Negotiation())->find("client_id = :cid", "cid={$client->id}")->fetch(true)
+            "negotiations" => (new Negotiation())->find("client_id = :cid", "cid={$client->id}")->fetch(true),
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 }

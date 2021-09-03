@@ -3,6 +3,7 @@
 namespace Source\App\Admin;
 
 use Source\Models\Funnel;
+use Source\Models\Message;
 use Source\Support\Pager;
 use Source\Support\Thumb;
 
@@ -56,12 +57,15 @@ class Funnels extends Admin
             false
         );
 
+        $userID = user()->id;
+
         echo $this->view->render("widgets/funnels/home", [
             "app" => "funnels/home",
             "head" => $head,
             "search" => $search,
             "funnels" => $funnels->limit($pager->limit())->offset($pager->offset())->fetch(true),
-            "paginator" => $pager->render()
+            "paginator" => $pager->render(),
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 
@@ -149,6 +153,8 @@ class Funnels extends Admin
             $funnelEdit = (new Funnel())->findById($funnelId);
         }
 
+        $userID = user()->id;
+
         $head = $this->seo->render(
             CONF_SITE_NAME . " | " . ($funnelEdit ? "Perfil de {$funnelEdit->name}" : "Novo Funil"),
             CONF_SITE_DESC,
@@ -160,7 +166,8 @@ class Funnels extends Admin
         echo $this->view->render("widgets/funnels/funnel", [
             "app" => "clients/home",
             "head" => $head,
-            "funnel" => $funnelEdit
+            "funnel" => $funnelEdit,
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 }

@@ -58,12 +58,15 @@ class Messages extends Admin
             false
         );
 
+        $userID = \user()->id;
+
         echo $this->view->render("widgets/messages/home", [
             "app" => "messages/home",
             "head" => $head,
             "search" => $search,
             "messages" => $messages->limit($pager->limit())->offset($pager->offset())->fetch(true),
-            "paginator" => $pager->render()
+            "paginator" => $pager->render(),
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 
@@ -90,6 +93,15 @@ class Messages extends Admin
 
             echo json_encode($json);
             return;
+        }
+
+        if ($data["message_id"]) {
+            $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
+            $message = (new Message())->findById($data["message_id"]);
+            if ($message->sender != \user()->id) {
+                $message->status = "open";
+                $message->save();
+            }
         }
 
 
@@ -126,12 +138,15 @@ class Messages extends Admin
             false
         );
 
+        $userID = \user()->id;
+
         echo $this->view->render("widgets/messages/message", [
             "app" => "messages/message",
             "head" => $head,
             "message" => $messageEdit,
             "recipients" => (\user()->level < 5) ? (new User())->find("level >= 5")->fetch(true) : (new User())->find("level < 5")->fetch(true),
-            "recipientSelected" => (\user()->level >= 5) ? $messageEdit->recipient : $messageEdit->sender
+            "recipientSelected" => (\user()->level >= 5) ? $messageEdit->recipient : $messageEdit->sender,
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 
@@ -148,12 +163,15 @@ class Messages extends Admin
             false
         );
 
+        $userID = \user()->id;
+
         echo $this->view->render("widgets/messages/response", [
             "app" => "messages/message",
             "head" => $head,
             "message" => $message,
             "recipients" => (\user()->level < 5) ? (new User())->find("level >= 5")->fetch(true) : (new User())->find("level < 5")->fetch(true),
-            "recipientSelected" => (\user()->level >= 5) ? $message->recipient : $message->sender
+            "recipientSelected" => (\user()->level >= 5) ? $message->recipient : $message->sender,
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 
@@ -191,12 +209,15 @@ class Messages extends Admin
             false
         );
 
+        $userID = \user()->id;
+
         echo $this->view->render("widgets/messages/sends", [
             "app" => "messages/sends",
             "head" => $head,
             "search" => $search,
             "sends" => $messages->limit($pager->limit())->offset($pager->offset())->fetch(true),
-            "paginator" => $pager->render()
+            "paginator" => $pager->render(),
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 }

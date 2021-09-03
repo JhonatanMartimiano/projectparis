@@ -2,6 +2,7 @@
 
 namespace Source\App\Admin;
 
+use Source\Models\Message;
 use Source\Models\User;
 use Source\Support\Pager;
 use Source\Support\Thumb;
@@ -58,12 +59,15 @@ class Users extends Admin
             false
         );
 
+        $userID = \user()->id;
+
         echo $this->view->render("widgets/users/home", [
             "app" => "users/home",
             "head" => $head,
             "search" => $search,
             "users" => $users->limit($pager->limit())->offset($pager->offset())->fetch(true),
-            "paginator" => $pager->render()
+            "paginator" => $pager->render(),
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 
@@ -206,10 +210,13 @@ class Users extends Admin
             false
         );
 
+        $userID = \user()->id;
+
         echo $this->view->render("widgets/users/user", [
             "app" => "users/home",
             "head" => $head,
-            "user" => $userEdit
+            "user" => $userEdit,
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
         ]);
     }
 }
