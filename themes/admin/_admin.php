@@ -98,14 +98,18 @@ $userPhoto = ($photo ? image($photo, 300, 300) : url("/shared/images/avatar.jpg"
                                 <span class=" nav-unread badge badge-danger  badge-pill"><?= $notification; ?></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <a href="#" class="dropdown-item d-flex pb-3">
-                                    <div>
-                                        <div class="small text-muted text-center">02/09/2021</div>
-                                        <strong>Jhonatan Martimiano</strong> - Cliente em Atraso.
-                                    </div>
-                                </a>
+                                <?php if ($notifications): ?>
+                                <?php foreach ($notifications as $singleNotification): ?>
+                                        <a href="<?= url('admin/messages/message/'.$singleNotification->id) ?>" class="dropdown-item d-flex pb-3">
+                                            <div>
+                                                <div class="small text-muted text-center"><?= date_fmt($singleNotification->created_at, "d/m/Y"); ?></div>
+                                                <strong><?= $singleNotification->senderFullName(); ?></strong> - <?= $singleNotification->subject; ?>.
+                                            </div>
+                                        </a>
+                                <?php endforeach; ?>
                                 <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item text-center">Ver todas mensagens</a>
+                                <?php endif; ?>
+                                <a href="<?= url('/admin/messages/home'); ?>" class="dropdown-item text-center">Ver todas mensagens</a>
                             </div>
                         </div>
                         <div class="dropdown ">

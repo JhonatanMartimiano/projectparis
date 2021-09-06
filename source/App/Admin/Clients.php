@@ -69,7 +69,8 @@ class Clients extends Admin
             "search" => $search,
             "clients" => $clients->limit($pager->limit())->offset($pager->offset())->fetch(true),
             "paginator" => $pager->render(),
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 
@@ -186,7 +187,8 @@ class Clients extends Admin
             "states" => (new AppState())->find()->fetch(true),
             "sellerSelected" => $clientEdit->seller_id,
             "funnelSelected" => $clientEdit->funnel_id,
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 

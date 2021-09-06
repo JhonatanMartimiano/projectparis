@@ -67,7 +67,8 @@ class Users extends Admin
             "search" => $search,
             "users" => $users->limit($pager->limit())->offset($pager->offset())->fetch(true),
             "paginator" => $pager->render(),
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 
@@ -216,7 +217,8 @@ class Users extends Admin
             "app" => "users/home",
             "head" => $head,
             "user" => $userEdit,
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 }

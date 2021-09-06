@@ -66,7 +66,8 @@ class Sellers extends Admin
             "search" => $search,
             "sellers" => $sellers->limit($pager->limit())->offset($pager->offset())->fetch(true),
             "paginator" => $pager->render(),
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 
@@ -201,7 +202,8 @@ class Sellers extends Admin
             "app" => "sellers/home",
             "head" => $head,
             "seller" => $sellerEdit,
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 }

@@ -66,7 +66,8 @@ class Messages extends Admin
             "search" => $search,
             "messages" => $messages->limit($pager->limit())->offset($pager->offset())->fetch(true),
             "paginator" => $pager->render(),
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 
@@ -146,7 +147,8 @@ class Messages extends Admin
             "message" => $messageEdit,
             "recipients" => (\user()->level < 5) ? (new User())->find("level >= 5")->fetch(true) : (new User())->find("level < 5")->fetch(true),
             "recipientSelected" => (\user()->level >= 5) ? $messageEdit->recipient : $messageEdit->sender,
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 
@@ -171,7 +173,8 @@ class Messages extends Admin
             "message" => $message,
             "recipients" => (\user()->level < 5) ? (new User())->find("level >= 5")->fetch(true) : (new User())->find("level < 5")->fetch(true),
             "recipientSelected" => (\user()->level >= 5) ? $message->recipient : $message->sender,
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 
@@ -217,7 +220,8 @@ class Messages extends Admin
             "search" => $search,
             "sends" => $messages->limit($pager->limit())->offset($pager->offset())->fetch(true),
             "paginator" => $pager->render(),
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 }

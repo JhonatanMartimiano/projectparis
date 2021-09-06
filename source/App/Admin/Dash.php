@@ -149,7 +149,8 @@ GROUP BY N.client_id")->fetchAll();
             "allNegotiations" => $query,
             "negotiation" => (new Negotiation()),
             "newClients" => (\user()->level >= 5) ? (new Client())->find("funnel_id IS NULL")->fetch(true) : (new Client())->find("seller_id = :sid AND funnel_id IS NULL", "sid={$seller_id}")->fetch(true),
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 

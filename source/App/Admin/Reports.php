@@ -98,7 +98,8 @@ class Reports extends Admin
             "completedOrders" => (new Client())->find("status = 'Concluído'")->count(),
             "waiting" => (new Negotiation())->find("contact_type = 'APagamento' OR contact_type = 'NRespondeu'")->count(),
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : "0",
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 
@@ -154,7 +155,8 @@ class Reports extends Admin
             "completedOrders" => (new Client())->find("status = 'Concluído'")->count(),
             "waiting" => (new Negotiation())->find("contact_type = 'APagamento' OR contact_type = 'NRespondeu'")->count(),
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : "0",
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 
@@ -207,7 +209,8 @@ class Reports extends Admin
             "table" => (new Negotiation())->find("contact_type = 'Tabela'")->count(),
             "price" => (new Negotiation())->find("contact_type = 'Cotação'")->count(),
             "apayment" => (new Negotiation())->find("contact_type = 'APagamento'")->count(),
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 
@@ -263,7 +266,8 @@ class Reports extends Admin
             "table" => (new Negotiation())->find("seller_id = :sid AND contact_type = 'Tabela'", "sid={$data['seller_id']}")->count(),
             "price" => (new Negotiation())->find("seller_id = :sid AND contact_type = 'Cotação'", "sid={$data['seller_id']}")->count(),
             "apayment" => (new Negotiation())->find("seller_id = :sid AND contact_type = 'APagamento'", "sid={$data['seller_id']}")->count(),
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 }

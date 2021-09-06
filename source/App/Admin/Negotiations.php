@@ -41,7 +41,8 @@ class Negotiations extends Admin
             "head" => $head,
             "funnels" => (new Funnel())->find()->fetch(true),
             "clients" => (new Client()),
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 
@@ -108,7 +109,8 @@ class Negotiations extends Admin
             "funnels" => (new Funnel())->find()->fetch(true),
             "funnelSelected" => $client->funnel_id,
             "negotiations" => (new Negotiation())->find("client_id = :cid", "cid={$client->id}")->fetch(true),
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 }

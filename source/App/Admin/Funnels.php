@@ -65,7 +65,8 @@ class Funnels extends Admin
             "search" => $search,
             "funnels" => $funnels->limit($pager->limit())->offset($pager->offset())->fetch(true),
             "paginator" => $pager->render(),
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 
@@ -167,7 +168,8 @@ class Funnels extends Admin
             "app" => "clients/home",
             "head" => $head,
             "funnel" => $funnelEdit,
-            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count()
+            "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
+            "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);
     }
 }
