@@ -120,7 +120,7 @@
             <!--            </div>-->
             <!-- /Revenue Chart -->
 
-            <?php if (user()->level >= 5): ?>
+            <?php if (user()->level >= 3): ?>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card m-b-20">
@@ -240,7 +240,7 @@
                                     </thead>
                                     <tbody>
                                     <?php foreach ($allNegotiations as $allNegotiation): ?>
-                                        <?php if (user()->level >= 5): ?>
+                                        <?php if (user()->level >= 3): ?>
                                             <?php if (date_diff_panel($negotiation->getClientIDNeg($allNegotiation->id_neg)->next_contact) < -1): ?>
                                                 <tr class="bg-danger text-white">
                                                     <td>

@@ -37,7 +37,7 @@ class Dash extends Admin
     public function home(?array $data): void
     {
         $seller_id = \user()->seller_id;
-        (\user()->level >= 5) ? $clients = (new Client())->find()->fetch(true) : $clients = (new Client())->find("seller_id = :sid", "sid={$seller_id}")->fetch(true);;
+        (\user()->level >= 3) ? $clients = (new Client())->find()->fetch(true) : $clients = (new Client())->find("seller_id = :sid", "sid={$seller_id}")->fetch(true);;
 
         if ($clients) {
             foreach ($clients as $client) {
@@ -134,7 +134,7 @@ GROUP BY N.client_id")->fetchAll();
             false
         );
 
-        $registrationDate = (user()->level >= 5) ? (new Client())->find("registration_date - CURDATE() < -1")->count() : (new Client())->find("registration_date - CURDATE() < -1 AND seller_id = :sid", "sid={$seller_id}")->count();
+        $registrationDate = (user()->level >= 3) ? (new Client())->find("registration_date - CURDATE() < -1")->count() : (new Client())->find("registration_date - CURDATE() < -1 AND seller_id = :sid", "sid={$seller_id}")->count();
 
         $userID = user()->id;
 
@@ -148,7 +148,7 @@ GROUP BY N.client_id")->fetchAll();
             "loss" => ($loss) ? count($loss) : 0,
             "allNegotiations" => $query,
             "negotiation" => (new Negotiation()),
-            "newClients" => (\user()->level >= 5) ? (new Client())->find("funnel_id IS NULL")->fetch(true) : (new Client())->find("seller_id = :sid AND funnel_id IS NULL", "sid={$seller_id}")->fetch(true),
+            "newClients" => (\user()->level >= 3) ? (new Client())->find("funnel_id IS NULL")->fetch(true) : (new Client())->find("seller_id = :sid AND funnel_id IS NULL", "sid={$seller_id}")->fetch(true),
             "notification" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->count(),
             "notifications" => (new Message())->find("sender != {$userID} AND recipient = {$userID} AND status = 'closed'")->fetch(true)
         ]);

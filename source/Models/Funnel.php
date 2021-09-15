@@ -13,7 +13,7 @@ class Funnel extends Model
 
     public function funnelClients()
     {
-        if (user()->level >= 5) {
+        if (user()->level >= 3) {
             $find = (new Client())->find("funnel_id = :fid AND status = 'Negociação' AND reason_loss = ''", "fid={$this->id}");
             return $find->fetch(true);
         } else {

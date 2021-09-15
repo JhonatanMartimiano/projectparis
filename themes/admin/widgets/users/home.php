@@ -46,7 +46,13 @@
                                     <tr>
                                         <th scope="row"><?= $user->id; ?></th>
                                         <td><?= $user->fullName(); ?></td>
-                                        <td><?= ($user->level >=5) ? "Admin" : "Vendedor"; ?></td>
+                                        <?php if ($user->level >= 5): ?>
+                                            <td><?= "Admin"; ?></td>
+                                        <?php elseif ($user->level == 3): ?>
+                                            <td><?= "Supervisor"; ?></td>
+                                        <?php else: ?>
+                                            <td><?= "Vendedor"; ?></td>
+                                        <?php endif; ?>
                                         <td><?= $user->email; ?></td>
                                         <td align="center">
                                             <a href="<?= url('/admin/users/user/'.$user->id); ?>"

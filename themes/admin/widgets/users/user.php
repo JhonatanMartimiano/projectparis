@@ -67,8 +67,8 @@
                                 <div class="form-group col-md-6">
                                     <label>Perfil de Acesso</label>
                                     <select name="level" class="form-control">
-<!--                                        <option value="">Selecione o perfil</option>-->
-<!--                                        <option value="1" class="">Usuário</option>-->
+                                        <option value="">Selecione o perfil</option>
+                                        <option value="3" class="">Supervisor</option>
                                         <option value="5" class="">Admin</option>
                                     </select>
                                 </div>
@@ -165,7 +165,14 @@
                                 <div class="form-group col-md-6">
                                     <label>Perfil de Acesso</label>
                                     <select name="level" class="form-control">
-                                        <option value="5" class="">Admin</option>
+                                        <?php
+                                        $level = $user->level;
+                                        $select = function ($value) use ($level) {
+                                            return ($level == $value ? "selected" : "");
+                                        };
+                                        ?>
+                                        <option <?= $select("3"); ?> value="3">Supervisor</option>
+                                        <option <?= $select("5"); ?> value="5">Admin</option>
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
