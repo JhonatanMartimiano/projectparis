@@ -108,6 +108,12 @@ class Clients extends Admin
             return;
         }
 
+        if ($data['client_id']) {
+            if (user()->level < 5) {
+                redirect("/admin/clients/home");
+            }
+        }
+
         //update
         if (!empty($data["action"]) && $data["action"] == "update") {
             $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);

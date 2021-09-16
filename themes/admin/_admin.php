@@ -99,17 +99,20 @@ $userPhoto = ($photo ? image($photo, 300, 300) : url("/shared/images/avatar.jpg"
                             </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                 <?php if ($notifications): ?>
-                                <?php foreach ($notifications as $singleNotification): ?>
-                                        <a href="<?= url('admin/messages/message/'.$singleNotification->id) ?>" class="dropdown-item d-flex pb-3">
+                                    <?php foreach ($notifications as $singleNotification): ?>
+                                        <a href="<?= url('admin/messages/message/' . $singleNotification->id) ?>"
+                                           class="dropdown-item d-flex pb-3">
                                             <div>
                                                 <div class="small text-muted text-center"><?= date_fmt($singleNotification->created_at, "d/m/Y"); ?></div>
-                                                <strong><?= $singleNotification->senderFullName(); ?></strong> - <?= $singleNotification->subject; ?>.
+                                                <strong><?= $singleNotification->senderFullName(); ?></strong>
+                                                - <?= $singleNotification->subject; ?>.
                                             </div>
                                         </a>
-                                <?php endforeach; ?>
-                                <div class="dropdown-divider"></div>
+                                    <?php endforeach; ?>
+                                    <div class="dropdown-divider"></div>
                                 <?php endif; ?>
-                                <a href="<?= url('/admin/messages/home'); ?>" class="dropdown-item text-center">Ver todas mensagens</a>
+                                <a href="<?= url('/admin/messages/home'); ?>" class="dropdown-item text-center">Ver
+                                    todas mensagens</a>
                             </div>
                         </div>
                         <div class="dropdown ">
@@ -170,16 +173,16 @@ $userPhoto = ($photo ? image($photo, 300, 300) : url("/shared/images/avatar.jpg"
                                         class="side-menu__label">Usuários</span></a>
                         </li>
                     <?php endif; ?>
-                        <li>
-                            <a class="side-menu__item" href="<?= url('/admin/sellers/home'); ?>"><i
-                                        class="side-menu__icon fa fa-user-plus"></i><span
-                                        class="side-menu__label">Vendedores</span></a>
-                        </li>
-                        <li>
-                            <a class="side-menu__item" href="<?= url('/admin/clients/home'); ?>"><i
-                                        class="side-menu__icon fa fa-users"></i><span
-                                        class="side-menu__label">Clientes</span></a>
-                        </li>
+                    <li>
+                        <a class="side-menu__item" href="<?= url('/admin/sellers/home'); ?>"><i
+                                    class="side-menu__icon fa fa-user-plus"></i><span
+                                    class="side-menu__label">Vendedores</span></a>
+                    </li>
+                    <li>
+                        <a class="side-menu__item" href="<?= url('/admin/clients/home'); ?>"><i
+                                    class="side-menu__icon fa fa-users"></i><span
+                                    class="side-menu__label">Clientes</span></a>
+                    </li>
                     <li class="slide">
                         <a class="side-menu__item" data-toggle="slide" href="#"><i
                                     class="side-menu__icon fa fa-cogs"></i><span

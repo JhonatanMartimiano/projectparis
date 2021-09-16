@@ -117,6 +117,12 @@ class Sellers extends Admin
             return;
         }
 
+        if ($data['seller_id']) {
+            if (user()->level < 5) {
+                redirect("/admin/sellers/home");
+            }
+        }
+
         //update
         if (!empty($data["action"]) && $data["action"] == "update") {
             $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);

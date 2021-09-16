@@ -54,16 +54,18 @@
                                                 <td><?= $client->sellerName(); ?></td>
                                                 <td><?= date_fmt($client->registration_date, "d/m/Y"); ?></td>
                                                 <td align="center">
-                                                    <a href="<?= url('/admin/clients/client/'.$client->id); ?>"
-                                                       class="btn btn-info btn-sm" title="Editar"><i
-                                                                class="fa fa-pencil"></i></a>
+                                                    <?php if (user()->level >= 5): ?>
+                                                        <a href="<?= url('/admin/clients/client/'.$client->id); ?>"
+                                                           class="btn btn-info btn-sm" title="Editar"><i
+                                                                    class="fa fa-pencil"></i></a>
 
-                                                    <a href="#" class="btn btn-danger btn-sm"
-                                                       data-post="<?= url("/admin/clients/client/{$client->id}"); ?>"
-                                                       data-action="delete"
-                                                       data-confirm="ATENÇÃO: Tem certeza que deseja excluir o cliente e todos os dados relacionados a ele? Essa ação não pode ser feita!"
-                                                       data-client_id="<?= $client->id; ?>" title="Excluir"><i
-                                                                class="fa fa-trash"></i></a>
+                                                        <a href="#" class="btn btn-danger btn-sm"
+                                                           data-post="<?= url("/admin/clients/client/{$client->id}"); ?>"
+                                                           data-action="delete"
+                                                           data-confirm="ATENÇÃO: Tem certeza que deseja excluir o cliente e todos os dados relacionados a ele? Essa ação não pode ser feita!"
+                                                           data-client_id="<?= $client->id; ?>" title="Excluir"><i
+                                                                    class="fa fa-trash"></i></a>
+                                                    <?php endif; ?>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
