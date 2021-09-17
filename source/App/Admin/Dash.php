@@ -134,7 +134,7 @@ GROUP BY N.client_id")->fetchAll();
             false
         );
 
-        $registrationDate = (user()->level >= 3) ? (new Client())->find("registration_date - CURDATE() < -1")->count() : (new Client())->find("registration_date - CURDATE() < -1 AND seller_id = :sid", "sid={$seller_id}")->count();
+        $registrationDate = (user()->level >= 3) ? (new Client())->find("registration_date - CURDATE() < -1 AND status AND status != 'Negociação'")->count() : (new Client())->find("registration_date - CURDATE() < -1 AND seller_id = :sid AND status != 'Negociação'", "sid={$seller_id}")->count();
 
         $userID = user()->id;
 
