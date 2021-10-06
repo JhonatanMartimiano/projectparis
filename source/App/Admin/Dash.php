@@ -164,4 +164,409 @@ GROUP BY N.client_id")->fetchAll();
         Auth::logout();
         redirect("/admin/login");
     }
+
+    public function late(): void
+    {
+        $seller_id = \user()->seller_id;
+        (\user()->level >= 3) ? $clients = (new Client())->find()->fetch(true) : $clients = (new Client())->find("seller_id = :sid", "sid={$seller_id}")->fetch(true);;
+
+        if ($clients) {
+            foreach ($clients as $client) {
+                if ((new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count()) {
+                    $count = (new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count() - 1;
+                    $lastNegotiations[] = (new Negotiation())->find("client_id = :cid",
+                        "cid={$client->id}")->fetch(true)[$count];
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
+                        $post24hour[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if ($lastNegotiations[$i]->contact_type == "PFinalizado") {
+                        $completedOrders[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0 && $lastNegotiations[$i]->contact_type == 'APagamento' || $lastNegotiations[$i]->contact_type == 'Orçamento' || $lastNegotiations[$i]->contact_type == 'Cotação') {
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
+                            $waiting[] = $lastNegotiations[$i];
+                        }
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0 && $lastNegotiations[$i]->contact_type != 'APagamento' && $lastNegotiations[$i]->contact_type != 'NRespondeu' && $lastNegotiations[$i]->contact_type != 'Orçamento' && $lastNegotiations[$i]->contact_type != 'Cotação') {
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
+                            $inNegotiations[] = $lastNegotiations[$i];
+                        }
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if ($lastNegotiations[$i]->reason_loss != "") {
+                        $loss[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+        }
+
+        $registrationDate = (user()->level >= 3) ? (new Client())->find("registration_date - CURDATE() < -1 AND status AND status != 'Negociação'")->count() : (new Client())->find("registration_date - CURDATE() < -1 AND seller_id = :sid AND status != 'Negociação'", "sid={$seller_id}")->count();
+
+        $head = $this->seo->render(
+            CONF_SITE_NAME . " | Dashboard",
+            CONF_SITE_DESC,
+            url("/admin"),
+            theme("/assets/images/image.jpg", CONF_VIEW_ADMIN),
+            false
+        );
+
+        echo $this->view->render('widgets/dash/late', [
+            'app' => 'dash',
+            'head' => $head,
+            "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
+            "post24hourArr" => $post24hour,
+            "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
+            "waiting" => ($waiting) ? count($waiting) : 0,
+            "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
+            "loss" => ($loss) ? count($loss) : 0
+        ]);
+    }
+
+    public function completed(): void
+    {
+        $seller_id = \user()->seller_id;
+        (\user()->level >= 3) ? $clients = (new Client())->find()->fetch(true) : $clients = (new Client())->find("seller_id = :sid", "sid={$seller_id}")->fetch(true);;
+
+        if ($clients) {
+            foreach ($clients as $client) {
+                if ((new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count()) {
+                    $count = (new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count() - 1;
+                    $lastNegotiations[] = (new Negotiation())->find("client_id = :cid",
+                        "cid={$client->id}")->fetch(true)[$count];
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
+                        $post24hour[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if ($lastNegotiations[$i]->contact_type == "PFinalizado") {
+                        $completedOrders[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0 && $lastNegotiations[$i]->contact_type == 'APagamento' || $lastNegotiations[$i]->contact_type == 'Orçamento' || $lastNegotiations[$i]->contact_type == 'Cotação') {
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
+                            $waiting[] = $lastNegotiations[$i];
+                        }
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0 && $lastNegotiations[$i]->contact_type != 'APagamento' && $lastNegotiations[$i]->contact_type != 'NRespondeu' && $lastNegotiations[$i]->contact_type != 'Orçamento' && $lastNegotiations[$i]->contact_type != 'Cotação') {
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
+                            $inNegotiations[] = $lastNegotiations[$i];
+                        }
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if ($lastNegotiations[$i]->reason_loss != "") {
+                        $loss[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+        }
+
+        $registrationDate = (user()->level >= 3) ? (new Client())->find("registration_date - CURDATE() < -1 AND status AND status != 'Negociação'")->count() : (new Client())->find("registration_date - CURDATE() < -1 AND seller_id = :sid AND status != 'Negociação'", "sid={$seller_id}")->count();
+
+        $head = $this->seo->render(
+            CONF_SITE_NAME . " | Dashboard",
+            CONF_SITE_DESC,
+            url("/admin"),
+            theme("/assets/images/image.jpg", CONF_VIEW_ADMIN),
+            false
+        );
+
+        echo $this->view->render('widgets/dash/completed', [
+            'app' => 'dash',
+            'head' => $head,
+            "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
+            "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
+            "completedOrdersArr" => $completedOrders,
+            "waiting" => ($waiting) ? count($waiting) : 0,
+            "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
+            "loss" => ($loss) ? count($loss) : 0
+        ]);
+    }
+
+    public function waiting(): void
+    {
+        $seller_id = \user()->seller_id;
+        (\user()->level >= 3) ? $clients = (new Client())->find()->fetch(true) : $clients = (new Client())->find("seller_id = :sid", "sid={$seller_id}")->fetch(true);;
+
+        if ($clients) {
+            foreach ($clients as $client) {
+                if ((new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count()) {
+                    $count = (new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count() - 1;
+                    $lastNegotiations[] = (new Negotiation())->find("client_id = :cid",
+                        "cid={$client->id}")->fetch(true)[$count];
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
+                        $post24hour[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if ($lastNegotiations[$i]->contact_type == "PFinalizado") {
+                        $completedOrders[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0 && $lastNegotiations[$i]->contact_type == 'APagamento' || $lastNegotiations[$i]->contact_type == 'Orçamento' || $lastNegotiations[$i]->contact_type == 'Cotação') {
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
+                            $waiting[] = $lastNegotiations[$i];
+                        }
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0 && $lastNegotiations[$i]->contact_type != 'APagamento' && $lastNegotiations[$i]->contact_type != 'NRespondeu' && $lastNegotiations[$i]->contact_type != 'Orçamento' && $lastNegotiations[$i]->contact_type != 'Cotação') {
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
+                            $inNegotiations[] = $lastNegotiations[$i];
+                        }
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if ($lastNegotiations[$i]->reason_loss != "") {
+                        $loss[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+        }
+
+        $registrationDate = (user()->level >= 3) ? (new Client())->find("registration_date - CURDATE() < -1 AND status AND status != 'Negociação'")->count() : (new Client())->find("registration_date - CURDATE() < -1 AND seller_id = :sid AND status != 'Negociação'", "sid={$seller_id}")->count();
+
+        $head = $this->seo->render(
+            CONF_SITE_NAME . " | Dashboard",
+            CONF_SITE_DESC,
+            url("/admin"),
+            theme("/assets/images/image.jpg", CONF_VIEW_ADMIN),
+            false
+        );
+
+        echo $this->view->render('widgets/dash/waiting', [
+            'app' => 'dash',
+            'head' => $head,
+            "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
+            "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
+            "waiting" => ($waiting) ? count($waiting) : 0,
+            "waitingArr" => $waiting,
+            "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
+            "loss" => ($loss) ? count($loss) : 0
+        ]);
+    }
+
+    public function inNegotiations(): void
+    {
+        $seller_id = \user()->seller_id;
+        (\user()->level >= 3) ? $clients = (new Client())->find()->fetch(true) : $clients = (new Client())->find("seller_id = :sid", "sid={$seller_id}")->fetch(true);;
+
+        if ($clients) {
+            foreach ($clients as $client) {
+                if ((new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count()) {
+                    $count = (new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count() - 1;
+                    $lastNegotiations[] = (new Negotiation())->find("client_id = :cid",
+                        "cid={$client->id}")->fetch(true)[$count];
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
+                        $post24hour[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if ($lastNegotiations[$i]->contact_type == "PFinalizado") {
+                        $completedOrders[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0 && $lastNegotiations[$i]->contact_type == 'APagamento' || $lastNegotiations[$i]->contact_type == 'Orçamento' || $lastNegotiations[$i]->contact_type == 'Cotação') {
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
+                            $waiting[] = $lastNegotiations[$i];
+                        }
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0 && $lastNegotiations[$i]->contact_type != 'APagamento' && $lastNegotiations[$i]->contact_type != 'NRespondeu' && $lastNegotiations[$i]->contact_type != 'Orçamento' && $lastNegotiations[$i]->contact_type != 'Cotação') {
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
+                            $inNegotiations[] = $lastNegotiations[$i];
+                        }
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if ($lastNegotiations[$i]->reason_loss != "") {
+                        $loss[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+        }
+
+        $registrationDate = (user()->level >= 3) ? (new Client())->find("registration_date - CURDATE() < -1 AND status AND status != 'Negociação'")->count() : (new Client())->find("registration_date - CURDATE() < -1 AND seller_id = :sid AND status != 'Negociação'", "sid={$seller_id}")->count();
+
+        $head = $this->seo->render(
+            CONF_SITE_NAME . " | Dashboard",
+            CONF_SITE_DESC,
+            url("/admin"),
+            theme("/assets/images/image.jpg", CONF_VIEW_ADMIN),
+            false
+        );
+
+        echo $this->view->render('widgets/dash/inNegotiations', [
+            'app' => 'dash',
+            'head' => $head,
+            "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
+            "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
+            "waiting" => ($waiting) ? count($waiting) : 0,
+            "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
+            "inNegotiationsArr" => $inNegotiations,
+            "loss" => ($loss) ? count($loss) : 0
+        ]);
+    }
+
+    public function loss(): void
+    {
+        $seller_id = \user()->seller_id;
+        (\user()->level >= 3) ? $clients = (new Client())->find()->fetch(true) : $clients = (new Client())->find("seller_id = :sid", "sid={$seller_id}")->fetch(true);;
+
+        if ($clients) {
+            foreach ($clients as $client) {
+                if ((new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count()) {
+                    $count = (new Negotiation())->find("client_id = :cid", "cid={$client->id}")->count() - 1;
+                    $lastNegotiations[] = (new Negotiation())->find("client_id = :cid",
+                        "cid={$client->id}")->fetch(true)[$count];
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
+                        $post24hour[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if ($lastNegotiations[$i]->contact_type == "PFinalizado") {
+                        $completedOrders[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0 && $lastNegotiations[$i]->contact_type == 'APagamento' || $lastNegotiations[$i]->contact_type == 'Orçamento' || $lastNegotiations[$i]->contact_type == 'Cotação') {
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
+                            $waiting[] = $lastNegotiations[$i];
+                        }
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0 && $lastNegotiations[$i]->contact_type != 'APagamento' && $lastNegotiations[$i]->contact_type != 'NRespondeu' && $lastNegotiations[$i]->contact_type != 'Orçamento' && $lastNegotiations[$i]->contact_type != 'Cotação') {
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
+                            $inNegotiations[] = $lastNegotiations[$i];
+                        }
+                    }
+                }
+            }
+
+            if ($lastNegotiations) {
+                for ($i = 0; $i < count($lastNegotiations); $i++) {
+                    if ($lastNegotiations[$i]->reason_loss != "") {
+                        $loss[] = $lastNegotiations[$i];
+                    }
+                }
+            }
+        }
+
+        $registrationDate = (user()->level >= 3) ? (new Client())->find("registration_date - CURDATE() < -1 AND status AND status != 'Negociação'")->count() : (new Client())->find("registration_date - CURDATE() < -1 AND seller_id = :sid AND status != 'Negociação'", "sid={$seller_id}")->count();
+
+        $head = $this->seo->render(
+            CONF_SITE_NAME . " | Dashboard",
+            CONF_SITE_DESC,
+            url("/admin"),
+            theme("/assets/images/image.jpg", CONF_VIEW_ADMIN),
+            false
+        );
+
+        echo $this->view->render('widgets/dash/loss', [
+            'app' => 'dash',
+            'head' => $head,
+            "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
+            "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
+            "waiting" => ($waiting) ? count($waiting) : 0,
+            "waitingArr" => $waiting,
+            "loss" => ($loss) ? count($loss) : 0,
+            "lossArr" => $loss
+        ]);
+    }
 }

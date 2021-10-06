@@ -43,6 +43,11 @@ $route->get("/dash", "Dash:dash");
 $route->get("/dash/home", "Dash:home");
 $route->post("/dash/home", "Dash:home");
 $route->get("/logoff", "Dash:logoff");
+$route->get("/dash/late", "Dash:late");
+$route->get("/dash/completed", "Dash:completed");
+$route->get("/dash/waiting", "Dash:waiting");
+$route->get("/dash/inNegotiations", "Dash:inNegotiations");
+$route->get("/dash/loss", "Dash:loss");
 
 //users
 $route->get("/users/home", "Users:home");
