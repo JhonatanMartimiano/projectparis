@@ -186,6 +186,10 @@ class Dash extends Admin
                     if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1) {
                         $post24hour[] = $lastNegotiations[$i];
                     }
+
+                    if (date_diff_panel($lastNegotiations[$i]->next_contact) < -1 && date_diff_system($lastNegotiations[$i]->updated_at) >= -30) {
+                        $post24hour30[] = $lastNegotiations[$i];
+                    }
                 }
             }
 
@@ -250,7 +254,7 @@ class Dash extends Admin
             'app' => 'dash',
             'head' => $head,
             "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
-            "post24hourArr" => (!empty($data)) ? $post24hourF : $post24hour,
+            "post24hourArr" => (!empty($data)) ? $post24hourF : $post24hour30,
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
             "waiting" => ($waiting) ? count($waiting) : 0,
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
@@ -286,6 +290,10 @@ class Dash extends Admin
                 for ($i = 0; $i < count($lastNegotiations); $i++) {
                     if ($lastNegotiations[$i]->contact_type == "PFinalizado") {
                         $completedOrders[] = $lastNegotiations[$i];
+                    }
+
+                    if ($lastNegotiations[$i]->contact_type == "PFinalizado" && date_diff_system($lastNegotiations[$i]->updated_at) >= -30) {
+                        $completedOrders30[] = $lastNegotiations[$i];
                     }
                 }
             }
@@ -344,7 +352,7 @@ class Dash extends Admin
             'head' => $head,
             "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
-            "completedOrdersArr" => (!empty($data)) ? $completedOrdersF : $completedOrders,
+            "completedOrdersArr" => (!empty($data)) ? $completedOrdersF : $completedOrders30,
             "waiting" => ($waiting) ? count($waiting) : 0,
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
             "loss" => ($loss) ? count($loss) : 0,
@@ -388,6 +396,10 @@ class Dash extends Admin
                     if (date_diff_panel($lastNegotiations[$i]->next_contact) >= 0 && $lastNegotiations[$i]->contact_type == 'APagamento' || $lastNegotiations[$i]->contact_type == 'Orçamento' || $lastNegotiations[$i]->contact_type == 'Cotação') {
                         if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
                             $waiting[] = $lastNegotiations[$i];
+                        }
+
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "" && date_diff_system($lastNegotiations[$i]->updated_at) >= -30) {
+                            $waiting30[] = $lastNegotiations[$i];
                         }
                     }
                 }
@@ -438,7 +450,7 @@ class Dash extends Admin
             "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
             "waiting" => ($waiting) ? count($waiting) : 0,
-            "waitingArr" => (!empty($data)) ? $waitF : $waiting,
+            "waitingArr" => (!empty($data)) ? $waitF : $waiting30,
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
             "loss" => ($loss) ? count($loss) : 0,
             "date" => $data
@@ -492,6 +504,10 @@ class Dash extends Admin
                         if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "") {
                             $inNegotiations[] = $lastNegotiations[$i];
                         }
+
+                        if ($lastNegotiations[$i]->contact_type != "PFinalizado" && $lastNegotiations[$i]->reason_loss == "" && date_diff_system($lastNegotiations[$i]->updated_at) >= -30) {
+                            $inNegotiations30[] = $lastNegotiations[$i];
+                        }
                     }
                 }
             }
@@ -532,7 +548,7 @@ class Dash extends Admin
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
             "waiting" => ($waiting) ? count($waiting) : 0,
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
-            "inNegotiationsArr" => (!empty($data)) ? $inNegotiationF : $inNegotiations,
+            "inNegotiationsArr" => (!empty($data)) ? $inNegotiationF : $inNegotiations30,
             "loss" => ($loss) ? count($loss) : 0,
             "date" => $data
         ]);
@@ -594,6 +610,10 @@ class Dash extends Admin
                     if ($lastNegotiations[$i]->reason_loss != "") {
                         $loss[] = $lastNegotiations[$i];
                     }
+
+                    if ($lastNegotiations[$i]->reason_loss != "" && date_diff_system($lastNegotiations[$i]->updated_at) >= -30) {
+                        $loss30[] = $lastNegotiations[$i];
+                    }
                 }
             }
         }
@@ -627,7 +647,7 @@ class Dash extends Admin
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
             "waitingArr" => $waiting,
             "loss" => ($loss) ? count($loss) : 0,
-            "lossArr" => (!empty($data)) ? $lossNF : $loss,
+            "lossArr" => (!empty($data)) ? $lossNF : $loss30,
             "date" => $data
         ]);
     }
