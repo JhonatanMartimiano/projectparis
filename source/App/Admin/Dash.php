@@ -228,8 +228,8 @@ class Dash extends Admin
 
         $post24hourF = null;
         if (!empty($data)) {
+            $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
             foreach ($post24hour as $post24h) {
-                $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
                 if (date_diff_system(date_fmt($post24h->updated_at, 'Y-m-d'), $data['first_date']) >= 0 && date_diff_system(date_fmt($post24h->updated_at, 'Y-m-d'), $data['second_date']) <= 0) {
                     $post24hourF[] = $post24h;
                 }
@@ -250,11 +250,12 @@ class Dash extends Admin
             'app' => 'dash',
             'head' => $head,
             "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
-            "post24hourArr" => (!empty($post24hourF)) ? $post24hourF : $post24hour,
+            "post24hourArr" => (!empty($data)) ? $post24hourF : $post24hour,
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
             "waiting" => ($waiting) ? count($waiting) : 0,
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
-            "loss" => ($loss) ? count($loss) : 0
+            "loss" => ($loss) ? count($loss) : 0,
+            "date" => $data
         ]);
     }
 
@@ -320,8 +321,8 @@ class Dash extends Admin
 
         $completedOrdersF = null;
         if (!empty($data)) {
+            $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
             foreach ($completedOrders as $completedOrder) {
-                $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
                 if (date_diff_system(date_fmt($completedOrder->updated_at, 'Y-m-d'), $data['first_date']) >= 0 && date_diff_system(date_fmt($completedOrder->updated_at, 'Y-m-d'), $data['second_date']) <= 0) {
                     $completedOrdersF[] = $completedOrder;
                 }
@@ -343,10 +344,11 @@ class Dash extends Admin
             'head' => $head,
             "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
-            "completedOrdersArr" => (!empty($completedOrdersF)) ? $completedOrdersF : $completedOrders,
+            "completedOrdersArr" => (!empty($data)) ? $completedOrdersF : $completedOrders,
             "waiting" => ($waiting) ? count($waiting) : 0,
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
-            "loss" => ($loss) ? count($loss) : 0
+            "loss" => ($loss) ? count($loss) : 0,
+            "date" => $data
         ]);
     }
 
@@ -412,8 +414,8 @@ class Dash extends Admin
 
         $waitF = null;
         if (!empty($data)) {
+            $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
             foreach ($waiting as $wait) {
-                $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
                 if (date_diff_system(date_fmt($wait->updated_at, 'Y-m-d'), $data['first_date']) >= 0 && date_diff_system(date_fmt($wait->updated_at, 'Y-m-d'), $data['second_date']) <= 0) {
                     $waitF[] = $wait;
                 }
@@ -436,9 +438,10 @@ class Dash extends Admin
             "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
             "waiting" => ($waiting) ? count($waiting) : 0,
-            "waitingArr" => (!empty($waitF)) ? $waitF : $waiting,
+            "waitingArr" => (!empty($data)) ? $waitF : $waiting,
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
-            "loss" => ($loss) ? count($loss) : 0
+            "loss" => ($loss) ? count($loss) : 0,
+            "date" => $data
         ]);
     }
 
@@ -504,8 +507,8 @@ class Dash extends Admin
 
         $inNegotiationF = null;
         if (!empty($data)) {
+            $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
             foreach ($inNegotiations as $inNegotiation) {
-                $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
                 if (date_diff_system(date_fmt($inNegotiation->updated_at, 'Y-m-d'), $data['first_date']) >= 0 && date_diff_system(date_fmt($inNegotiation->updated_at, 'Y-m-d'), $data['second_date']) <= 0) {
                     $inNegotiationF[] = $inNegotiation;
                 }
@@ -529,8 +532,9 @@ class Dash extends Admin
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
             "waiting" => ($waiting) ? count($waiting) : 0,
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
-            "inNegotiationsArr" => (!empty($inNegotiationF)) ? $inNegotiationF : $inNegotiations,
-            "loss" => ($loss) ? count($loss) : 0
+            "inNegotiationsArr" => (!empty($data)) ? $inNegotiationF : $inNegotiations,
+            "loss" => ($loss) ? count($loss) : 0,
+            "date" => $data
         ]);
     }
 
@@ -596,8 +600,8 @@ class Dash extends Admin
 
         $lossNF = null;
         if (!empty($data)) {
+            $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
             foreach ($loss as $lossN) {
-                $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
                 if (date_diff_system(date_fmt($lossN->updated_at, 'Y-m-d'), $data['first_date']) >= 0 && date_diff_system(date_fmt($lossN->updated_at, 'Y-m-d'), $data['second_date']) <= 0) {
                     $lossNF[] = $lossN;
                 }
@@ -623,7 +627,8 @@ class Dash extends Admin
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
             "waitingArr" => $waiting,
             "loss" => ($loss) ? count($loss) : 0,
-            "lossArr" => (!empty($lossNF)) ? $lossNF : $loss
+            "lossArr" => (!empty($data)) ? $lossNF : $loss,
+            "date" => $data
         ]);
     }
 }

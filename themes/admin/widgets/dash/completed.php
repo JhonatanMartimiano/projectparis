@@ -74,9 +74,9 @@
                                       method="post">
                                     <div class="nav-search">
                                         <input type="date" class="form-control header-search mr-2" name="first_date"
-                                               value="" placeholder="Buscar…" aria-label="Search">
+                                               value="<?= $date['first_date']; ?>" placeholder="Buscar…" aria-label="Search">
                                         <input type="date" class="form-control header-search" name="second_date"
-                                               value="" placeholder="Buscar…" aria-label="Search">
+                                               value="<?= $date['second_date']; ?>" placeholder="Buscar…" aria-label="Search">
                                         <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
                                     </div>
                                 </form>
