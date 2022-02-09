@@ -347,6 +347,22 @@ function date_diff_panel(string $dateEnd, string $dateStart = "now"): int
     }
 }
 
+function date_diff_system(string $dateEnd, string $dateStart = "now"): int
+{
+    $date1 = new DateTime($dateStart);
+    $date2 = new DateTime($dateEnd);
+    $interval = $date1->diff($date2);
+    $result = $interval->days;
+    $flag = $interval->invert; // 1 se data passada, 0 se data futura
+    if($flag === 0) {
+        //data futura
+        return $result;
+    } else {
+        //data passada
+        return -abs($result);
+    }
+}
+
 function date_fmt_color(string $dataEnd): string
 {
     $class = null;

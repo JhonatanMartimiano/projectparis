@@ -95,36 +95,36 @@ class Dash extends Admin
 
         $query = Connect::getInstance()->query("SELECT C.name as cliente, V.first_name as vendedor,
 
-(SELECT N2.id FROM negotiations as N2 WHERE N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as id_neg,
-
-(SELECT N2.contact_type FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as etapa1,
-
-(SELECT N2.updated_at FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data1,
-(SELECT N2.next_contact FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data11,
-
-(SELECT N2.description FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as obs1,
-
-(SELECT N2.contact_type FROM negotiations as N2 WHERE N2.funnel_id = 2 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as etapa2,
-
-(SELECT N2.updated_at FROM negotiations as N2 WHERE N2.funnel_id = 2 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data2,
-(SELECT N2.next_contact FROM negotiations as N2 WHERE N2.funnel_id = 2 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data22,
-
-(SELECT N2.description FROM negotiations as N2 WHERE N2.funnel_id = 2 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as obs2,
-
-(SELECT N2.contact_type FROM negotiations as N2 WHERE N2.funnel_id = 3 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as etapa3,
-(SELECT N2.next_contact FROM negotiations as N2 WHERE N2.funnel_id = 3 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data33,
-
-(SELECT N2.updated_at FROM negotiations as N2 WHERE N2.funnel_id = 3 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data3,
-
-(SELECT N2.description FROM negotiations as N2 WHERE N2.client_id = N.client_id ORDER BY N2.id DESC  LIMIT 1) as obs
-
-
-
-FROM negotiations as N INNER JOIN clients as C 
-ON N.client_id = C.id INNER JOIN sellers as V
-ON N.seller_id = V.id
-WHERE 1=1
-GROUP BY N.client_id")->fetchAll();
+        (SELECT N2.id FROM negotiations as N2 WHERE N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as id_neg,
+        
+        (SELECT N2.contact_type FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as etapa1,
+        
+        (SELECT N2.updated_at FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data1,
+        (SELECT N2.next_contact FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data11,
+        
+        (SELECT N2.description FROM negotiations as N2 WHERE N2.funnel_id = 1 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as obs1,
+        
+        (SELECT N2.contact_type FROM negotiations as N2 WHERE N2.funnel_id = 2 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as etapa2,
+        
+        (SELECT N2.updated_at FROM negotiations as N2 WHERE N2.funnel_id = 2 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data2,
+        (SELECT N2.next_contact FROM negotiations as N2 WHERE N2.funnel_id = 2 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data22,
+        
+        (SELECT N2.description FROM negotiations as N2 WHERE N2.funnel_id = 2 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as obs2,
+        
+        (SELECT N2.contact_type FROM negotiations as N2 WHERE N2.funnel_id = 3 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as etapa3,
+        (SELECT N2.next_contact FROM negotiations as N2 WHERE N2.funnel_id = 3 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data33,
+        
+        (SELECT N2.updated_at FROM negotiations as N2 WHERE N2.funnel_id = 3 AND N2.client_id = N.client_id ORDER BY N2.id DESC LIMIT 1) as data3,
+        
+        (SELECT N2.description FROM negotiations as N2 WHERE N2.client_id = N.client_id ORDER BY N2.id DESC  LIMIT 1) as obs
+        
+        
+        
+        FROM negotiations as N INNER JOIN clients as C 
+        ON N.client_id = C.id INNER JOIN sellers as V
+        ON N.seller_id = V.id
+        WHERE 1=1
+        GROUP BY N.client_id")->fetchAll();
 
         $head = $this->seo->render(
             CONF_SITE_NAME . " | Dashboard",
@@ -157,7 +157,8 @@ GROUP BY N.client_id")->fetchAll();
     /**
      *
      */
-    public function logoff(): void
+    public
+    function logoff(): void
     {
         $this->message->success("Você saiu com sucesso {$this->user->first_name}.")->flash();
 
@@ -165,7 +166,8 @@ GROUP BY N.client_id")->fetchAll();
         redirect("/admin/login");
     }
 
-    public function late(): void
+    public
+    function late(?array $data)
     {
         $seller_id = \user()->seller_id;
         (\user()->level >= 3) ? $clients = (new Client())->find()->fetch(true) : $clients = (new Client())->find("seller_id = :sid", "sid={$seller_id}")->fetch(true);;
@@ -224,6 +226,16 @@ GROUP BY N.client_id")->fetchAll();
             }
         }
 
+        $post24hourF = null;
+        if (!empty($data)) {
+            foreach ($post24hour as $post24h) {
+                $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
+                if (date_diff_system(date_fmt($post24h->updated_at, 'Y-m-d'), $data['first_date']) >= 0 && date_diff_system(date_fmt($post24h->updated_at, 'Y-m-d'), $data['second_date']) <= 0) {
+                    $post24hourF[] = $post24h;
+                }
+            }
+        }
+
         $registrationDate = (user()->level >= 3) ? (new Client())->find("registration_date - CURDATE() < -1 AND status AND status != 'Negociação'")->count() : (new Client())->find("registration_date - CURDATE() < -1 AND seller_id = :sid AND status != 'Negociação'", "sid={$seller_id}")->count();
 
         $head = $this->seo->render(
@@ -238,7 +250,7 @@ GROUP BY N.client_id")->fetchAll();
             'app' => 'dash',
             'head' => $head,
             "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
-            "post24hourArr" => $post24hour,
+            "post24hourArr" => (!empty($post24hourF)) ? $post24hourF : $post24hour,
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
             "waiting" => ($waiting) ? count($waiting) : 0,
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
@@ -246,7 +258,8 @@ GROUP BY N.client_id")->fetchAll();
         ]);
     }
 
-    public function completed(): void
+    public
+    function completed(?array $data)
     {
         $seller_id = \user()->seller_id;
         (\user()->level >= 3) ? $clients = (new Client())->find()->fetch(true) : $clients = (new Client())->find("seller_id = :sid", "sid={$seller_id}")->fetch(true);;
@@ -301,6 +314,16 @@ GROUP BY N.client_id")->fetchAll();
                     if ($lastNegotiations[$i]->reason_loss != "") {
                         $loss[] = $lastNegotiations[$i];
                     }
+                }
+            }
+        }
+
+        $completedOrdersF = null;
+        if (!empty($data)) {
+            foreach ($completedOrders as $completedOrder) {
+                $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
+                if (date_diff_system(date_fmt($completedOrder->updated_at, 'Y-m-d'), $data['first_date']) >= 0 && date_diff_system(date_fmt($completedOrder->updated_at, 'Y-m-d'), $data['second_date']) <= 0) {
+                    $completedOrdersF[] = $completedOrder;
                 }
             }
         }
@@ -320,14 +343,15 @@ GROUP BY N.client_id")->fetchAll();
             'head' => $head,
             "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
-            "completedOrdersArr" => $completedOrders,
+            "completedOrdersArr" => (!empty($completedOrdersF)) ? $completedOrdersF : $completedOrders,
             "waiting" => ($waiting) ? count($waiting) : 0,
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
             "loss" => ($loss) ? count($loss) : 0
         ]);
     }
 
-    public function waiting(): void
+    public
+    function waiting(?array $data)
     {
         $seller_id = \user()->seller_id;
         (\user()->level >= 3) ? $clients = (new Client())->find()->fetch(true) : $clients = (new Client())->find("seller_id = :sid", "sid={$seller_id}")->fetch(true);;
@@ -382,6 +406,16 @@ GROUP BY N.client_id")->fetchAll();
                     if ($lastNegotiations[$i]->reason_loss != "") {
                         $loss[] = $lastNegotiations[$i];
                     }
+                }
+            }
+        }
+
+        $waitF = null;
+        if (!empty($data)) {
+            foreach ($waiting as $wait) {
+                $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
+                if (date_diff_system(date_fmt($wait->updated_at, 'Y-m-d'), $data['first_date']) >= 0 && date_diff_system(date_fmt($wait->updated_at, 'Y-m-d'), $data['second_date']) <= 0) {
+                    $waitF[] = $wait;
                 }
             }
         }
@@ -402,13 +436,14 @@ GROUP BY N.client_id")->fetchAll();
             "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
             "waiting" => ($waiting) ? count($waiting) : 0,
-            "waitingArr" => $waiting,
+            "waitingArr" => (!empty($waitF)) ? $waitF : $waiting,
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
             "loss" => ($loss) ? count($loss) : 0
         ]);
     }
 
-    public function inNegotiations(): void
+    public
+    function inNegotiations(?array $data)
     {
         $seller_id = \user()->seller_id;
         (\user()->level >= 3) ? $clients = (new Client())->find()->fetch(true) : $clients = (new Client())->find("seller_id = :sid", "sid={$seller_id}")->fetch(true);;
@@ -463,6 +498,16 @@ GROUP BY N.client_id")->fetchAll();
                     if ($lastNegotiations[$i]->reason_loss != "") {
                         $loss[] = $lastNegotiations[$i];
                     }
+                }
+            }
+        }
+
+        $inNegotiationF = null;
+        if (!empty($data)) {
+            foreach ($inNegotiations as $inNegotiation) {
+                $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
+                if (date_diff_system(date_fmt($inNegotiation->updated_at, 'Y-m-d'), $data['first_date']) >= 0 && date_diff_system(date_fmt($inNegotiation->updated_at, 'Y-m-d'), $data['second_date']) <= 0) {
+                    $inNegotiationF[] = $inNegotiation;
                 }
             }
         }
@@ -484,12 +529,13 @@ GROUP BY N.client_id")->fetchAll();
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
             "waiting" => ($waiting) ? count($waiting) : 0,
             "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
-            "inNegotiationsArr" => $inNegotiations,
+            "inNegotiationsArr" => (!empty($inNegotiationF)) ? $inNegotiationF : $inNegotiations,
             "loss" => ($loss) ? count($loss) : 0
         ]);
     }
 
-    public function loss(): void
+    public
+    function loss(?array $data)
     {
         $seller_id = \user()->seller_id;
         (\user()->level >= 3) ? $clients = (new Client())->find()->fetch(true) : $clients = (new Client())->find("seller_id = :sid", "sid={$seller_id}")->fetch(true);;
@@ -548,6 +594,16 @@ GROUP BY N.client_id")->fetchAll();
             }
         }
 
+        $lossNF = null;
+        if (!empty($data)) {
+            foreach ($loss as $lossN) {
+                $data = filter_var_array($data, FILTER_SANITIZE_STRIPPED);
+                if (date_diff_system(date_fmt($lossN->updated_at, 'Y-m-d'), $data['first_date']) >= 0 && date_diff_system(date_fmt($lossN->updated_at, 'Y-m-d'), $data['second_date']) <= 0) {
+                    $lossNF[] = $lossN;
+                }
+            }
+        }
+
         $registrationDate = (user()->level >= 3) ? (new Client())->find("registration_date - CURDATE() < -1 AND status AND status != 'Negociação'")->count() : (new Client())->find("registration_date - CURDATE() < -1 AND seller_id = :sid AND status != 'Negociação'", "sid={$seller_id}")->count();
 
         $head = $this->seo->render(
@@ -564,9 +620,10 @@ GROUP BY N.client_id")->fetchAll();
             "post24hour" => ($post24hour) ? count($post24hour) : 0 + $registrationDate,
             "completedOrders" => ($completedOrders) ? count($completedOrders) : 0,
             "waiting" => ($waiting) ? count($waiting) : 0,
+            "inNegotiations" => ($inNegotiations) ? count($inNegotiations) : 0,
             "waitingArr" => $waiting,
             "loss" => ($loss) ? count($loss) : 0,
-            "lossArr" => $loss
+            "lossArr" => (!empty($lossNF)) ? $lossNF : $loss
         ]);
     }
 }

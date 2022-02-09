@@ -4,17 +4,17 @@
  * PROJECT URLs
  */
 if ($_SERVER['HTTP_HOST'] == "www.localhost") {
-    define("CONF_DB_HOST", "mysql.ferafox.com");
-    define("CONF_DB_USER", "ferafox62");
-    define("CONF_DB_PASS", "194280aa");
-    define("CONF_DB_NAME", "ferafox62");
+    define("CONF_DB_HOST", "192.168.100.30");
+    define("CONF_DB_USER", "root");
+    define("CONF_DB_PASS", "4144");
+    define("CONF_DB_NAME", "databasedefault");
     define("CONF_URL_TEST", "http://www.localhost");
 } else {
     define("CONF_DB_HOST", "mysql.ferafox.com");
     define("CONF_DB_USER", "ferafox62");
     define("CONF_DB_PASS", "194280aa");
     define("CONF_DB_NAME", "ferafox62");
-    define("CONF_URL_BASE", "https://www.ferafox.com/projetos/pparis");
+    define("CONF_URL_BASE", "https://www.professionalparis.com.br/gestao");
 }
 
 /**

@@ -10,7 +10,7 @@
                 </ol>
             </div>
             <div class="row">
-                <a href="<?= url('/dash/late'); ?>" class="col-20per">
+                <a href="<?= url('/admin/dash/late'); ?>" class="col-20per">
                     <div class="card overflow-hidden bg-danger">
                         <div class="card-body iconfont text-center">
                             <h5 class="text-white">Atrasados 24H+</h5>
@@ -68,6 +68,19 @@
                             <h3 class="card-title">Clientes Perdidos</h3>
                         </div>
                         <div class="card-body">
+                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                <h4>Último Contato</h4>
+                                <form class="form-inline ajax_off mb-1" action="<?= url('/admin/dash/loss'); ?>"
+                                      method="post">
+                                    <div class="nav-search">
+                                        <input type="date" class="form-control header-search mr-2" name="first_date"
+                                               value="" placeholder="Buscar…" aria-label="Search">
+                                        <input type="date" class="form-control header-search" name="second_date"
+                                               value="" placeholder="Buscar…" aria-label="Search">
+                                        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </form>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered border-top mb-0">
                                     <thead>
@@ -84,7 +97,9 @@
                                     <?php if ($lossArr): ?>
                                         <?php foreach ($lossArr as $negLoss): ?>
                                             <tr class="bg-purple text-white">
-                                                <td><?= $negLoss->infoClient()->name; ?></td>
+                                                <td>
+                                                    <a href="<?= url('/admin/negotiations/negotiation/' . $negLoss->infoClient()->id); ?>" class="text-white"><?= $negLoss->infoClient()->name; ?></a>
+                                                </td>
                                                 <td><?= $negLoss->infoSeller()->fullName(); ?></td>
                                                 <td><?= $negLoss->infoFunnel()->title; ?></td>
                                                 <td><?= date_fmt($negLoss->updated_at, 'd/m/Y'); ?></td>
