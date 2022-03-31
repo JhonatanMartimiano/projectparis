@@ -4,7 +4,7 @@
  * PROJECT URLs
  */
 if ($_SERVER['HTTP_HOST'] == "www.localhost") {
-    define("CONF_DB_HOST", "192.168.100.30");
+    define("CONF_DB_HOST", "192.168.100.41");
     define("CONF_DB_USER", "root");
     define("CONF_DB_PASS", "4144");
     define("CONF_DB_NAME", "databasedefault");
